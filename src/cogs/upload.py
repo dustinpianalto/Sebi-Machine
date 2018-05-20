@@ -83,6 +83,6 @@ class Upload:
         """Pull latest commits, TMP until we have a solution"""
         if ctx.author.id not in self.bot.ownerlist:
             return await ctx.send('Only my creator can use me like this :blush:', delete_after=1)
-        
+
 def setup(bot):
     bot.add_cog(Upload(bot))
