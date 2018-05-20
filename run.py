@@ -20,7 +20,7 @@ class SebiMachine(commands.Bot, LoadConfig):
 
         # Load plugins
         # Add your cog file name in this list
-        cogs = ['example', 'upload']
+        cogs = ['example', 'upload', 'git']
 
         for cog in cogs:
             print(cog)
