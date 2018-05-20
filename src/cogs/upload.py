@@ -2,7 +2,7 @@
 # -*- coding: <encoding name> -*-
 
 from discord.ext import commands
-import discord
+import os
 import traceback
 
 class Upload:
@@ -77,6 +77,15 @@ class Upload:
             await ctx.send(f'Could not unload `{extension}` -> `{e}`')
         else:
             await ctx.send(f'Loaded `{extension}`.')
+
+    @commands.command()
+    async def git(self, ctx):
+        """Pull latest commits"""
+        if ctx.author.id not in self.bot.ownerlist:
+            return await ctx.send('Only my creator can use me like this :blush:', delete_after=1)
+
+        pull = os.popen('git pull').read()
+        await ctx.send(f'Pull complete\n```sh\n{pull}\n```')
 
 def setup(bot):
     bot.add_cog(Upload(bot))
