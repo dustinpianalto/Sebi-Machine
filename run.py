@@ -20,16 +20,16 @@ class SebiMachine(commands.Bot, LoadConfig):
 
         # Load plugins
         # Add your cog file name in this list
-        cogs = ['example']
+        cogs = ['example', 'upload']
 
         for cog in cogs:
+            print(cog)
             self.load_extension(f'src.cogs.{cog}')
 
     async def on_ready(self):
         """On ready function"""
         if self.maintenance:
             print('MAINTENANCE ACTIVE')
-
 
 if __name__ == '__main__':
     client = SebiMachine()
