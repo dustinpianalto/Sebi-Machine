@@ -19,6 +19,7 @@ class SebiMachine(commands.Bot, LoadConfig):
         # Initialize and attach config / settings
         LoadConfig.__init__(self)
         commands.Bot.__init__(self, command_prefix=self.defaultprefix)
+        self.embed_color = discord.Color(0x00FFFF)
 
         # Load plugins
         # Add your cog file name in this list
