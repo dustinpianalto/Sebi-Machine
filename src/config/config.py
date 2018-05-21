@@ -2,7 +2,7 @@
 # -*- coding: <encoding name> -*-
 
 import json
-
+import discord
 
 class LoadConfig:
     """
@@ -19,6 +19,7 @@ class LoadConfig:
         self.version = self.config["version"]
         self.display_name = self.config["display_name"]
         self.maintenance = self.config["maintenance"]
+        self.embed_color = discord.Color(0x00FFFF)
         if self.maintenance == 'False':
             self.maintenance = False
         else:

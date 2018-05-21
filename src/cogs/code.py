@@ -1,14 +1,9 @@
 from discord.ext import commands
 import traceback
-import discord
-import inspect
 import textwrap
 from contextlib import redirect_stdout
-from discord.errors import HTTPException
-import psycopg2
 import io
-import asyncio
-import re
+
 
 class REPL:
     """Python in Discords"""
