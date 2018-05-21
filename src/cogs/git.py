@@ -46,31 +46,34 @@ class Git:
         pass
 
     @git.command()
-    @commands.is_owner()
     async def pull(self, ctx):
-        async with ctx.typing():
-            em = discord.Embed(style='rich',
-                               title=f'Git Pull',
-                               color=self.bot.embed_color)
-            em.set_thumbnail(url=f'{ctx.guild.me.avatar_url}')
+        await ctx.trigger_typing()
+        if ctx.author.id not in self.bot.ownerlist:
+            return await ctx.send('Only my creator can use me like this :blush:', delete_after=10)
+        em = discord.Embed(style='rich',
+                           title=f'Git Pull',
+                           color=self.bot.embed_color)
+        em.set_thumbnail(url=f'{ctx.guild.me.avatar_url}')
 
-            result = await asyncio.wait_for(self.bot.loop.create_task(
-                run_command('git fetch --all')), 120) + '\n'
-            result += await asyncio.wait_for(self.bot.loop.create_task(
-                run_command('git reset --hard origin/$(git rev-parse '
-                            '--symbolic-full-name --abbrev-ref HEAD)')),
-                120) + '\n\n'
-            result += await asyncio.wait_for(self.bot.loop.create_task(
-                run_command('git show --stat | sed "s/.*@.*[.].*/ /g"')), 10)
+        result = await asyncio.wait_for(self.bot.loop.create_task(
+            run_command('git fetch --all')), 120) + '\n'
+        result += await asyncio.wait_for(self.bot.loop.create_task(
+            run_command('git reset --hard origin/$(git rev-parse '
+                        '--symbolic-full-name --abbrev-ref HEAD)')),
+            120) + '\n\n'
+        result += await asyncio.wait_for(self.bot.loop.create_task(
+            run_command('git show --stat | sed "s/.*@.*[.].*/ /g"')), 10)
 
-            results = paginate(result, maxlen=1014)
-            for page in results[:5]:
-                em.add_field(name='\uFFF0', value=f'{page}')
+        results = paginate(result, maxlen=1014)
+        for page in results[:5]:
+            em.add_field(name='\uFFF0', value=f'{page}')
         await ctx.send(embed=em)
 
     @git.command()
-    @commands.is_owner()
     async def status(self, ctx):
+        await ctx.trigger_typing()
+        if ctx.author.id not in self.bot.ownerlist:
+            return await ctx.send('Only my creator can use me like this :blush:', delete_after=10)
         em = discord.Embed(style='rich',
                            title=f'Git Pull',
                            color=self.bot.embed_color)

@@ -18,7 +18,7 @@ class Upload:
         """Reload an extension."""
 
         if ctx.author.id not in self.bot.ownerlist:
-            return await ctx.send('Only my creator can use me like this :blush:', delete_after=1)
+            return await ctx.send('Only my creator can use me like this :blush:', delete_after=10)
 
         extension = extension.lower()
         try:
@@ -34,7 +34,7 @@ class Upload:
     async def reloadall(self, ctx):
         """Reload all extensions."""
         if ctx.author.id not in self.bot.ownerlist:
-            return await ctx.send('Only my creator can use me like this :blush:', delete_after=1)
+            return await ctx.send('Only my creator can use me like this :blush:', delete_after=10)
 
         try:
             for extension in self.bot.extensions:
@@ -48,7 +48,7 @@ class Upload:
     async def unload(self, ctx, *, extension: str):
         """Unload an extension."""
         if ctx.author.id not in self.bot.ownerlist:
-            return await ctx.send('Only my creator can use me like this :blush:', delete_after=1)
+            return await ctx.send('Only my creator can use me like this :blush:', delete_after=10)
 
         extension = extension.lower()
         try:
@@ -66,7 +66,7 @@ class Upload:
     async def load(self, ctx,  *, extension: str):
         """Load an extension."""
         if ctx.author.id not in self.bot.ownerlist:
-            return await ctx.send('Only my creator can use me like this :blush:', delete_after=1)
+            return await ctx.send('Only my creator can use me like this :blush:', delete_after=10)
 
         extension = extension.lower()
         try:
