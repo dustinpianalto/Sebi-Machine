@@ -4,6 +4,7 @@
 from discord.ext import commands
 import discord
 import random
+import aiohttp
 
 class Fun:
     """
@@ -22,7 +23,10 @@ class Fun:
           - sebisauce
         """
         await ctx.trigger_typing()
-        source = await self.bot.brequest.aio_json('http://ikbengeslaagd.com/API/sebisauce.json')
+        url = 'http://ikbengeslaagd.com/API/sebisauce.json'
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                source = await response.json(encoding='utf8')
 
         total_sebi = 0
         for key in dict.keys(source):
