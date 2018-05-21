@@ -49,7 +49,7 @@ class Git:
     async def pull(self, ctx):
         await ctx.trigger_typing()
         if ctx.author.id not in self.bot.ownerlist:
-            return await ctx.send('Only my creator can use me like this :blush:', delete_after=10)
+            return await ctx.send('Only my contributors can use me like this :blush:', delete_after=10)
         em = discord.Embed(style='rich',
                            title=f'Git Pull',
                            color=self.bot.embed_color)
@@ -73,7 +73,7 @@ class Git:
     async def status(self, ctx):
         await ctx.trigger_typing()
         if ctx.author.id not in self.bot.ownerlist:
-            return await ctx.send('Only my creator can use me like this :blush:', delete_after=10)
+            return await ctx.send('Only my contributors can use me like this :blush:', delete_after=10)
         em = discord.Embed(style='rich',
                            title=f'Git Pull',
                            color=self.bot.embed_color)

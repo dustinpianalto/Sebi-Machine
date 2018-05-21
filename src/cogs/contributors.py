@@ -16,9 +16,9 @@ class Upload:
     @commands.command()
     async def reload(self, ctx, *, extension: str):
         """Reload an extension."""
-
+        await ctx.trigger_typing()
         if ctx.author.id not in self.bot.ownerlist:
-            return await ctx.send('Only my creator can use me like this :blush:', delete_after=10)
+            return await ctx.send('Only my contributors can use me like this :blush:', delete_after=10)
 
         extension = extension.lower()
         try:
@@ -33,8 +33,9 @@ class Upload:
     @commands.command()
     async def reloadall(self, ctx):
         """Reload all extensions."""
+        await ctx.trigger_typing()
         if ctx.author.id not in self.bot.ownerlist:
-            return await ctx.send('Only my creator can use me like this :blush:', delete_after=10)
+            return await ctx.send('Only my contributors can use me like this :blush:', delete_after=10)
 
         try:
             for extension in self.bot.extensions:
@@ -47,8 +48,9 @@ class Upload:
     @commands.command()
     async def unload(self, ctx, *, extension: str):
         """Unload an extension."""
+        await ctx.trigger_typing()
         if ctx.author.id not in self.bot.ownerlist:
-            return await ctx.send('Only my creator can use me like this :blush:', delete_after=10)
+            return await ctx.send('Only my contributors can use me like this :blush:', delete_after=10)
 
         extension = extension.lower()
         try:
@@ -65,8 +67,9 @@ class Upload:
     @commands.command()
     async def load(self, ctx,  *, extension: str):
         """Load an extension."""
+        await ctx.trigger_typing()
         if ctx.author.id not in self.bot.ownerlist:
-            return await ctx.send('Only my creator can use me like this :blush:', delete_after=10)
+            return await ctx.send('Only my contributors can use me like this :blush:', delete_after=10)
 
         extension = extension.lower()
         try:
@@ -83,7 +86,7 @@ class Upload:
         """triggers error to test traceback"""
         await ctx.send(a)
 
-    
+
 
 def setup(bot):
     bot.add_cog(Upload(bot))

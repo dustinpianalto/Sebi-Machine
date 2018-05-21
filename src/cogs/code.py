@@ -29,7 +29,7 @@ class REPL:
         return '{0.text}{1:>{0.offset}}\n{2}: {0}'.format(e, '^', type(e).__name__)
 
 
-    @commands.command(hidden=True, name='exec')
+    @commands.command(name='exec')
     async def _eval(self, ctx, *, body: str = None):
         """
         Execute python code in discord chat.
@@ -42,8 +42,8 @@ class REPL:
         Example:
           - exec print(546132)
         """
-        if ctx.message.author.id not in self.bot.ownerlist:
-            return await ctx.send('Only the owner of this bot can use this command')
+        if ctx.author.id not in self.bot.ownerlist:
+            return await ctx.send('Only my contributors can use me like this :blush:', delete_after=10)
 
         if body is None:
             return await ctx.send(
