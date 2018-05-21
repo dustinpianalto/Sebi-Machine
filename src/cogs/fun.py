@@ -34,13 +34,11 @@ class Fun:
 
         im = random.randint(0, int(total_sebi) - 1)
 
-        msg = await ctx.send(
-            embed=discord.Embed(
-                title='\t',
-                description='\t',
-                color=0xf20006).set_image(
-                url=source[str(im)]))
-        return await msg.add_reaction(self.bot.success)
+        await ctx.send(embed=discord.Embed(
+            title='\t',
+            description='\t',
+            color=0xf20006).set_image(
+            url=source[str(im)]))
 
 def setup(bot):
     bot.add_cog(Fun(bot))
