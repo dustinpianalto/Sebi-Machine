@@ -37,7 +37,7 @@ class Fun:
         await ctx.send(embed=discord.Embed(
             title='\t',
             description='\t',
-            color=0xf20006).set_image(
+            color=self.bot.embed_color).set_image(
             url=source[str(im)]))
 
 def setup(bot):
