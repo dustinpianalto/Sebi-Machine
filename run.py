@@ -53,7 +53,7 @@ class SebiMachine(commands.Bot, LoadConfig):
 
         # catch error
         error = error.__cause__ or error
-        tb = traceback.format_exception(type(error), error, error.__traceback__, limit=1, chain=False)
+        tb = traceback.format_exception(type(error), error, error.__traceback__, limit=2, chain=False)
         tb = ''.join(tb)
         joke = random.choice(jokes)
         fmt = f'**`{self.defaultprefix}{ctx.command}`**\n{joke}\n\n**{type(error).__name__}:**:\n```py\n{tb}\n```'
