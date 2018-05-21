@@ -2,8 +2,7 @@
 # -*- coding: <encoding name> -*-
 
 import json
-import psycopg2
-import psycopg2.extensions
+
 
 class LoadConfig:
     """
