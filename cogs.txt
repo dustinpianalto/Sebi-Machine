@@ -1,4 +1,5 @@
 example
-upload
+contributors
+code
 git
 fun
