@@ -23,10 +23,11 @@ class SebiMachine(commands.Bot, LoadConfig):
 
         # Load plugins
         # Add your cog file name in this list
-        cogs = ['example', 'upload', 'git']
-
+        with open('cogs.txt', 'r') as cog_file:
+            cogs = cog_file.readlines()
         for cog in cogs:
-            print(cog)
+            print(f'Loaded:{cog}')
+            cog = cog.replace('\n', '')
             self.load_extension(f'src.cogs.{cog}')
 
     async def on_ready(self):
