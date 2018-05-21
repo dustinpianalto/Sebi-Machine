@@ -78,5 +78,10 @@ class Upload:
         else:
             await ctx.send(f'Loaded `{extension}`.')
 
+    @commands.command()
+    async def err(self, ctx):
+        """triggers error to test traceback"""
+        await ctx.send(a)
+
 def setup(bot):
     bot.add_cog(Upload(bot))
