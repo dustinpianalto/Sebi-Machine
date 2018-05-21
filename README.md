@@ -31,6 +31,7 @@ if self.mainenance:
 if not self.mainenance:
     print('I am in the master branch)
 ```
+With other words. self.mainenance returns False in production and True in developer modus.
 
 ## Initialize a cog
 Cogs can be placed in `./src/cogs`. Overall the `src` folder is the place to put code in.
