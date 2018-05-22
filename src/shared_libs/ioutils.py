@@ -10,7 +10,7 @@ import os
 __all__ = ('in_here',)
 
 
-def in_here(*path_bits: str, stack_depth: int=0) -> str:
+def in_here(first_path_bit: str, *path_bits: str, stack_depth: int=0) -> str:
     """
     A somewhat voodooish and weird piece of code. This enables us to
     directly refer to a file in the same directory as the code that 
@@ -26,7 +26,16 @@ def in_here(*path_bits: str, stack_depth: int=0) -> str:
     for the stack to refer to that caller, you should increment 
     the ``stack_depth`` arg for each nested call you make. By default,
     you can ignore this and it will default to 0.
-    """
+    
+    :param first_path_bit: the initial path bit to operate with. This is 
+        required.
+    :param path_bits: additional bits of path to construct relative to here.
+        These are entirely optional.
+    :param stack_depth: optional, defaults to 0. How many nested calls
+        we expect this to be called in. Affects the relative directory
+        that is used.
+    :returns: the absolute path to the given relative path provided.
+    """    
     try:
         frame = inspect.stack()[1 + nested_by]
     except IndexError:
@@ -34,12 +43,12 @@ def in_here(*path_bits: str, stack_depth: int=0) -> str:
                            'been shot.')
     else:
         module = inspect.getmodule(frame[0])
-        assert hasattr(module, '__file__'), 'No __file__ attr, whelp.'
+        assert hasattr(module, '__file__'), 'No `__file__\' attr, welp.'
 
         file = module.__file__
 
         dir_name = os.path.dirname(file)
         abs_dir_name = os.path.abspath(dir_name)
 
-        return os.path.join(abs_dir_name, *paths)
- 
+        pathish = os.path.join(abs_dir_name, first_path_bit, *path_bits)
+        return pathish
