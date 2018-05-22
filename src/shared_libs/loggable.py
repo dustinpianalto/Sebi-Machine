@@ -14,6 +14,9 @@ boast faster lookups.
 import logging
 
 
+__all__ = ('Loggable',)
+
+
 class Loggable:
     __slots__ = ('logger',)
     
