@@ -106,3 +106,4 @@ venv.bak/
 /src/config/Config.json
 /src/config/PrivateConfig.json
 .idea/
+.vscode/

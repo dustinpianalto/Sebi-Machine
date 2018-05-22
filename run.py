@@ -70,7 +70,8 @@ class SebiMachine(commands.Bot, LoadConfig):
         tb = ''.join(tb)
         joke = random.choice(jokes)
         fmt = f'**`{self.defaultprefix}{ctx.command}`**\n{joke}\n\n**{type(error).__name__}:**:\n```py\n{tb}\n```'
-        simple_fmt = f'**`{self.defaultprefix}{ctx.command}`**\n{joke}\n\n**{type(error).__name__}:**:\n**`{error}`**'
+        # unused variable
+        # simple_fmt = f'**`{self.defaultprefix}{ctx.command}`**\n{joke}\n\n**{type(error).__name__}:**:\n**`{error}`**'
         await ctx.send(fmt)
 
 
