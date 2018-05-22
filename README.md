@@ -7,36 +7,57 @@ http://discord.gg/GWdhBSp
 
 This bot extends the rewrite version of discord.py. A couple of variables have been added to give you easy access to a couple of objects listed here.
 
-> self.ownerlist
+> self.bot.ownerlist
 
 self.ownerlist can be used to retrieve a `list` of user ID's. (`int`). Those ID's belong to contributors.
-> self.defaultprefix
+> self.bot.defaultprefix
 
 self.defaultprefix can be used to retrieve a `str` object of the default prefix. 
-> self.version
+> self.bot.version
 
 self.version can be used to retrieve a `float` which represent the version number of the bot.
-> self.display_name
+> self.bot.display_name
 
 self.display_name returns a `str` which represent the display_name of the bot.
-> self.mainenance
+> self.bot.mainenance
 
 self.maintenance is equal to `True` or `False`. If you would like to exclude code in the master branch, use this.
 Make sure this one is installed.
 example:
 ```py
-if self.mainenance:
+if self.bot.mainenance:
     print('I am in the development branch')
 
-if not self.mainenance:
+if not self.bot.mainenance:
     print('I am in the master branch)
 ```
 With other words. self.mainenance returns False in production and True in developer modus.
 
+> self.bot.embed_color
+
+self.embed_color can be used to use the default color of out embed theme.
+```
+discord.Embed(title='Foo', description='bar', color=self.bot.embed_color)
+```
+
+## Docker environment
+This bot is heavly based on docker. This means it will run in a container. Other words. The code will run in a jail. Dont be afraid for bugs that cause harm. or commands that could potential restarts the server. Its safe. 
+
+There are a couple of things to know about docker within this project.
+1. Please read the docs of docker first before editing the docker files
+2. If you need a pip package, place the name into requirements.txt, docker handles the rest.
+3. Everything in project folder is the workfolder of the docker container
+4. Initialize cogs by adding them into cogs.txt. one line is one cogfile
+                           
 ## Initialize a cog
-Cogs can be placed in `./src/cogs`. Overall the `src` folder is the place to put code in.
-Make sure to update the `requirements.txt` and it is important to add the name of your cog file into the `cogs.txt` list. Otherwise it may turn out that your cog wont load.
+Put your cog in `src/cogs` and edit the `cogs.txt` file. Add the filename of your cog into `cogs.txt`. No absolute path, just the name.
 
 ## Update source code
 There is a git command available provided by Dusty. `S!git pull` should pull the latest commits into the docker container. Make sure afterwards to reload the cog.
 If you are stuck in any way shape or form you can always contact anyone who works on this project. Dont forget to check `S!help`.
+
+## Project links:
+    - http://discord.gg/GWdhBSp
+    - http://chillout.ueuo.com
+    - http://trello.com/b/x02goBbW/sebis-bot-tutorial-roadmap
+

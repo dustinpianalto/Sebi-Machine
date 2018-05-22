@@ -110,21 +110,3 @@ venv.bak/
 
 /src/config/Config.json
 /src/config/PrivateConfig.json
-
-# IntelliJ stuff
-.idea/
-*.iml
-
-# Sublime stuff
-# Cache files for Sublime Text
-*.tmlanguage.cache
-*.tmPreferences.cache
-*.stTheme.cache
-
-# Workspace files are user-specific
-*.sublime-workspace
-
-# Project files should be checked into the repository, unless a significant
-# proportion of contributors will probably not be using Sublime Text
-# *.sublime-project
-

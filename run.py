@@ -2,6 +2,7 @@
 # -*- coding: utf8 -*-
 
 # Import packages
+import asyncio
 import discord
 from discord.ext import commands
 import json
@@ -11,6 +12,18 @@ import random
 # Import custom files
 from src.config.config import LoadConfig
 
+# If uvloop is installed, change to that eventloop policy as it 
+# is more efficient
+try:
+    import uvloop
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+    del uvloop
+except BaseException as ex:
+    print(f'Could not load uvloop. {type(ex).__name__}: {ex};',
+          'reverting to default impl.')
+else:
+    print(f'Using uvloop for asyncio event loop policy.')
+
 
 # Bot Class
 class SebiMachine(commands.Bot, LoadConfig):
@@ -19,7 +32,7 @@ class SebiMachine(commands.Bot, LoadConfig):
         # Initialize and attach config / settings
         LoadConfig.__init__(self)
         commands.Bot.__init__(self, command_prefix=self.defaultprefix)
-        self.embed_color = discord.Color(0x00FFFF)
+
 
         # Load plugins
         # Add your cog file name in this list

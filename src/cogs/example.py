@@ -14,7 +14,11 @@ class CogName:
     @commands.command()
     async def ping(self, ctx):
         """Say pong"""
-        await ctx.send('Pong')
+        now = ctx.message.created_at
+        msg = await ctx.send('Pong')
+        sub = msg.created_at - now
+        await msg.edit(content=f'Pong, {sub.total_seconds() * 1000}')
+        
 
 def setup(bot):
     bot.add_cog(CogName(bot))
