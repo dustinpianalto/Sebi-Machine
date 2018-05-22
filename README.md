@@ -39,14 +39,25 @@ self.embed_color can be used to use the default color of out embed theme.
 ```
 discord.Embed(title='Foo', description='bar', color=self.bot.embed_color)
 ```
+
+## Docker environment
+This bot is heavly based on docker. This means it will run in a container. Other words. The code will run in a jail. Dont be afraid for bugs that cause harm. or commands that could potential restarts the server. Its safe. 
+
+There are a couple of things to know about docker within this project.
+1. Please read the docs of docker first before editing the docker files
+2. If you need a pip package, place the name into requirements.txt, docker handles the rest.
+3. Everything in project folder is the workfolder of the docker container
+4. Initialize cogs by adding them into cogs.txt. one line is one cogfile
                            
 ## Initialize a cog
-Cogs can be placed in `./src/cogs`. Overall the `src` folder is the place to put code in.
-Make sure to update the `requirements.txt` and it is important to add the name of your cog file into the `cogs.txt` list. Otherwise it may turn out that your cog wont load.
+Put your cog in `src/cogs` and edit the `cogs.txt` file. Add the filename of your cog into `cogs.txt`. No absolute path, just the name.
 
 ## Update source code
 There is a git command available provided by Dusty. `S!git pull` should pull the latest commits into the docker container. Make sure afterwards to reload the cog.
 If you are stuck in any way shape or form you can always contact anyone who works on this project. Dont forget to check `S!help`.
 
-## Trello
-We do make use of Trello which can be found here: https://trello.com/b/x02goBbW/sebis-bot-tutorial-roadmap
+## Project links:
+    - http://discord.gg/GWdhBSp
+    - http://chillout.ueuo.com
+    - http://trello.com/b/x02goBbW/sebis-bot-tutorial-roadmap
+
