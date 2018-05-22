@@ -12,6 +12,7 @@ import random
 
 # Import custom files
 from src.config.config import LoadConfig
+from src.shared_libs.loggable import Loggable
 
 logging.basicConfig(level='INFO')        
 
@@ -23,9 +24,9 @@ try:
     del uvloop
 except BaseException as ex:
     logging.warning(f'Could not load uvloop. {type(ex).__name__}: {ex};',
-          'reverting to default impl.'))
+          'reverting to default impl.')
 else:
-    logging.info(print(f'Using uvloop for asyncio event loop policy.'))
+    logging.info(f'Using uvloop for asyncio event loop policy.')
 
 
 # Bot Class
@@ -47,11 +48,9 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
             self.load_extension(f'src.cogs.{cog}')
             self.logger.info(f'Loaded: {cog}')
             
-
     async def on_ready(self):
         """On ready function"""
-        if self.maintenance:
-            self.logger.warning('MAINTENANCE ACTIVE')
+        self.maintenance and self.logger.warning('MAINTENANCE ACTIVE')
 
     async def on_command_error(self, ctx, error):
         """
@@ -76,7 +75,12 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
         joke = random.choice(jokes)
         fmt = f'**`{self.defaultprefix}{ctx.command}`**\n{joke}\n\n**{type(error).__name__}:**:\n```py\n{tb}\n```'
         simple_fmt = f'**`{self.defaultprefix}{ctx.command}`**\n{joke}\n\n**{type(error).__name__}:**:\n**`{error}`**'
-        await ctx.send(fmt)
+        
+        # Stops the error handler erroring.
+        try:
+            await ctx.send(fmt)
+        except:
+            traceback.print_exc()
 
 
 if __name__ == '__main__':
