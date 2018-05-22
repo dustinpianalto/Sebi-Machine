@@ -103,4 +103,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+/src/config/Config.json
+/src/config/PrivateConfig.json
 .idea/
