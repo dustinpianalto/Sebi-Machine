@@ -17,7 +17,7 @@ class CogName:
         now = ctx.message.created_at
         msg = await ctx.send('Pong')
         sub = msg.created_at - now
-        await ctx.edit(content=f'Pong, {sub.total_seconds() * 1000})
+        await ctx.edit(content=f'Pong, {sub.total_seconds() * 1000}')
         
 
 def setup(bot):
