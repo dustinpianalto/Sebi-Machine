@@ -6,11 +6,15 @@ import asyncio
 import discord
 from discord.ext import commands
 import json
+import logging
 import traceback
 import random
 
 # Import custom files
 from src.config.config import LoadConfig
+from src.shared_libs.loggable import Loggable
+
+logging.basicConfig(level='INFO')        
 
 # If uvloop is installed, change to that eventloop policy as it 
 # is more efficient
@@ -19,34 +23,34 @@ try:
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     del uvloop
 except BaseException as ex:
-    print(f'Could not load uvloop. {type(ex).__name__}: {ex};',
+    logging.warning(f'Could not load uvloop. {type(ex).__name__}: {ex};',
           'reverting to default impl.')
 else:
-    print(f'Using uvloop for asyncio event loop policy.')
+    logging.info(f'Using uvloop for asyncio event loop policy.')
 
 
 # Bot Class
-class SebiMachine(commands.Bot, LoadConfig):
+class SebiMachine(commands.Bot, LoadConfig, Loggable):
     """This discord is dedicated to http://www.discord.gg/GWdhBSp"""
     def __init__(self):
         # Initialize and attach config / settings
         LoadConfig.__init__(self)
         commands.Bot.__init__(self, command_prefix=self.defaultprefix)
 
-
         # Load plugins
         # Add your cog file name in this list
         with open('cogs.txt', 'r') as cog_file:
             cogs = cog_file.readlines()
+            
         for cog in cogs:
-            print(f'Loaded:{cog}')
+            # Could this just be replaced with `strip()`?
             cog = cog.replace('\n', '')
             self.load_extension(f'src.cogs.{cog}')
-
+            self.logger.info(f'Loaded: {cog}')
+            
     async def on_ready(self):
         """On ready function"""
-        if self.maintenance:
-            print('MAINTENANCE ACTIVE')
+        self.maintenance and self.logger.warning('MAINTENANCE ACTIVE')
 
     async def on_command_error(self, ctx, error):
         """
@@ -71,7 +75,12 @@ class SebiMachine(commands.Bot, LoadConfig):
         joke = random.choice(jokes)
         fmt = f'**`{self.defaultprefix}{ctx.command}`**\n{joke}\n\n**{type(error).__name__}:**:\n```py\n{tb}\n```'
         simple_fmt = f'**`{self.defaultprefix}{ctx.command}`**\n{joke}\n\n**{type(error).__name__}:**:\n**`{error}`**'
-        await ctx.send(fmt)
+        
+        # Stops the error handler erroring.
+        try:
+            await ctx.send(fmt)
+        except:
+            traceback.print_exc()
 
 
 if __name__ == '__main__':
@@ -79,5 +88,5 @@ if __name__ == '__main__':
     # Make sure the key stays private.
     with open('src/config/PrivateConfig.json') as fp:
         PrivateConfig = json.load(fp)
-        fp.close()
+
     client.run(PrivateConfig["bot-key"])
