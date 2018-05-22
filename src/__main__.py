@@ -16,6 +16,7 @@ from discord.ext import commands
 
 from src.config.config import LoadConfig
 from src.shared_libs.loggable import Loggable
+from src.shared_libs.ioutil import in_here
 
 
 # Init logging to output on INFO level to stderr.
@@ -46,7 +47,7 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
 
         # Load plugins
         # Add your cog file name in this list
-        with open('cogs.txt') as cog_file:
+        with open(in_here('cogs.txt')) as cog_file:
             cogs = cog_file.readlines()
             
         for cog in cogs:
