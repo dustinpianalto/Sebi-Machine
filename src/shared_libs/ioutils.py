@@ -37,7 +37,7 @@ def in_here(first_path_bit: str, *path_bits: str, stack_depth: int=0) -> str:
     :returns: the absolute path to the given relative path provided.
     """    
     try:
-        frame = inspect.stack()[1 + nested_by]
+        frame = inspect.stack()[1 + stack_depth]
     except IndexError:
         raise RuntimeError('Could not find a stack record. Interpreter has '
                            'been shot.')

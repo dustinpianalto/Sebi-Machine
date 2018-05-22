@@ -16,7 +16,7 @@ from discord.ext import commands
 
 from src.config.config import LoadConfig
 from src.shared_libs.loggable import Loggable
-from src.shared_libs.ioutil import in_here
+from src.shared_libs.ioutils import in_here
 
 
 # Init logging to output on INFO level to stderr.
@@ -53,7 +53,7 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
         for cog in cogs:
             # Could this just be replaced with `strip()`?
             cog = cog.replace('\n', '')
-            self.load_extension(f'{__name__}.cogs.{cog}')
+            self.load_extension(f'src.cogs.{cog}')
             self.logger.info(f'Loaded: {cog}')
             
     async def on_ready(self):
@@ -93,11 +93,9 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
             traceback.print_exc()
 
 
-if __name__ == '__main__':
-    client = SebiMachine()
-    # Make sure the key stays private.
-    # I am 99% certain this is valid!
-    with open(f'{__name__}/config/PrivateConfig.json') as fp:
-        PrivateConfig = json.load(fp)
-
-    client.run(PrivateConfig["bot-key"])
+client = SebiMachine()
+# Make sure the key stays private.
+# I am 99% certain this is valid!
+with open(in_here('config', 'PrivateConfig.json')) as fp:
+    PrivateConfig = json.load(fp)
+client.run(PrivateConfig["bot-key"])

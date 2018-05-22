@@ -110,3 +110,6 @@ venv.bak/
 
 /src/config/Config.json
 /src/config/PrivateConfig.json
+
+# Ignore dockerfiles
+docker-compose.yml
