@@ -47,3 +47,6 @@ Make sure to update the `requirements.txt` and it is important to add the name o
 ## Update source code
 There is a git command available provided by Dusty. `S!git pull` should pull the latest commits into the docker container. Make sure afterwards to reload the cog.
 If you are stuck in any way shape or form you can always contact anyone who works on this project. Dont forget to check `S!help`.
+
+## Trello
+We do make use of Trello which can be found here: https://trello.com/b/x02goBbW/sebis-bot-tutorial-roadmap
