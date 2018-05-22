@@ -75,7 +75,7 @@ class Git:
         if ctx.author.id not in self.bot.ownerlist:
             return await ctx.send('Only my contributors can use me like this :blush:', delete_after=10)
         em = discord.Embed(style='rich',
-                           title=f'Git Pull',
+                           title=f'Git Status',
                            color=self.bot.embed_color)
         em.set_thumbnail(url=f'{ctx.guild.me.avatar_url}')
         result = await asyncio.wait_for(self.bot.loop.create_task(
