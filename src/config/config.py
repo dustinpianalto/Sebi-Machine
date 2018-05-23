@@ -17,8 +17,6 @@ class LoadConfig:
         # Initialize config
 
         self.ownerlist = self.config["ownerlist"]
-        if self.ownerlist == []:
-            self.ownerlist = [int(i) for i in os.getenv('ownerlist').split(',')]
         self.defaultprefix = self.config["prefix"]
         self.version = self.config["version"]
         self.display_name = self.config["display_name"]
