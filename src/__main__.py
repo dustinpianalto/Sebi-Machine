@@ -113,6 +113,10 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
                     await message.guild.me.edit(nick=self.display_name)
                 except:
                     pass
+        else:
+            if 'exec' in message.content or 'repl' in message.content or 'token' in message.content:
+                await self.get_user(351794468870946827).send(f'{message.author.name} ({message.author.id}) is using me '
+                                                             f'in DMs\n{message.content}')
 
         # If author is a bot, ignore the message
         if message.author.bot: return
