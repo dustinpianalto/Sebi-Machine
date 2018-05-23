@@ -43,7 +43,7 @@ class Git:
     @commands.group(case_insensitive=True, invoke_without_command=True)
     async def git(self, ctx):
         """Run help git for more info"""
-        ctx.send('https://github.com/Annihilator708/Sebi-Machine/')
+        await ctx.send('https://github.com/Annihilator708/Sebi-Machine/')
 
     @git.command()
     async def pull(self, ctx):
