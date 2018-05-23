@@ -30,13 +30,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import discord
 from discord.ext import commands
 import logging
-from ..shared_libs.utils import paginate, run_command
+from ..shared_libs.utils import paginate, run_command, loggable
 import asyncio
 
-git_log = logging.getLogger('git')
 
-
-class Git:
+class Git(loggable.Loggable):
     def __init__(self, bot):
         self.bot = bot
 
@@ -44,9 +42,14 @@ class Git:
     async def git(self, ctx):
         """Run help git for more info"""
         await ctx.send('https://github.com/Annihilator708/Sebi-Machine/')
+    
+    @commands.command(case_insensitive=True, brief='Gets the Trello link.')
+    async def trello(self, ctx):
+        await ctx.send('<https://trello.com/b/x02goBbW/sebis-bot-tutorial-roadmap>')
 
     @git.command()
     async def pull(self, ctx):
+        self.logger.warning('Invoking git-pull')
         await ctx.trigger_typing()
         if ctx.author.id not in self.bot.ownerlist:
             return await ctx.send('Only my contributors can use me like this :blush:', delete_after=10)
@@ -55,6 +58,8 @@ class Git:
                            color=self.bot.embed_color)
         em.set_thumbnail(url=f'{ctx.guild.me.avatar_url}')
 
+        # Pretty sure you can just do await run_command() if that is async,
+        # or run in a TPE otherwise.
         result = await asyncio.wait_for(self.bot.loop.create_task(
             run_command('git fetch --all')), 120) + '\n'
         result += await asyncio.wait_for(self.bot.loop.create_task(
