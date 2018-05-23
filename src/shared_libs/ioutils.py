@@ -3,6 +3,7 @@
 """
 IO stuff.
 """
+import copy
 import inspect
 import os
 
@@ -42,13 +43,20 @@ def in_here(first_path_bit: str, *path_bits: str, stack_depth: int=0) -> str:
         raise RuntimeError('Could not find a stack record. Interpreter has '
                            'been shot.')
     else:
-        module = inspect.getmodule(frame[0])
+        module = inspect.getmodule(frame[0])        
         assert hasattr(module, '__file__'), 'No `__file__\' attr, welp.'
-
+        
+        # https://docs.python.org/3/library/inspect.html#the-interpreter-stack
+        # If Python caches strings rather than copying when we move them
+        # around or modify them, then this may cause a referential cycle which
+        # will consume more memory and stop the garbage collection system
+        # from working correctly. Best thing to do here is deepcopy anything
+        # we need and prevent this occuring. Del the references to allow them
+        # to be freed.
         file = module.__file__
-
+        file = copy.deepcopy(file)
+        del module, frame
         dir_name = os.path.dirname(file)
         abs_dir_name = os.path.abspath(dir_name)
-
         pathish = os.path.join(abs_dir_name, first_path_bit, *path_bits)
         return pathish
