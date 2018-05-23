@@ -61,3 +61,6 @@ If you are stuck in any way shape or form you can always contact anyone who work
     - http://chillout.ueuo.com
     - http://trello.com/b/x02goBbW/sebis-bot-tutorial-roadmap
 
+## Deploy to heroku
+For testing purposes you can click the link below to build your own copy of this repo you just pick an app name fill in the config variables then switch it on in resources tab.
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Annihilator708/Sebi-Machine/tree/development)
