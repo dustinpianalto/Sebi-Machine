@@ -60,4 +60,4 @@ If you are stuck in any way shape or form you can always contact anyone who work
     - http://discord.gg/GWdhBSp
     - http://chillout.ueuo.com
     - http://trello.com/b/x02goBbW/sebis-bot-tutorial-roadmap
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Raatty/Sebi-Machine/tree/development)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Annihilator708/Sebi-Machine/tree/development)
