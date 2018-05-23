@@ -10,6 +10,7 @@ import json
 import logging
 import random
 import traceback
+import os
 
 import discord
 from discord.ext import commands
@@ -98,4 +99,7 @@ client = SebiMachine()
 # I am 99% certain this is valid!
 with open(in_here('config', 'PrivateConfig.json')) as fp:
     PrivateConfig = json.load(fp)
+if PrivateConfig["bot-key"] == '':
+    PrivateConfig["bot-key"] = os.getenv('botkey')
+
 client.run(PrivateConfig["bot-key"])

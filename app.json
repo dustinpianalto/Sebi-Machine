@@ -1,0 +1,15 @@
+{
+  "name":"sebi-machine",
+  "stack":"container",
+  "env": {
+
+        "ownerlist": {
+            "description": "comma seperated list of owner ids",
+            "required":  true
+        },
+        "botkey": {
+            "description": "bot token",
+            "required":  true
+        }
+    }
+}
