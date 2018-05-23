@@ -29,12 +29,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import discord
 from discord.ext import commands
-import logging
-from ..shared_libs.utils import paginate, run_command, loggable
+from src.shared_libs.utils import paginate, run_command
+from src.shared_libs.loggable import Loggable
 import asyncio
 
 
-class Git(loggable.Loggable):
+class Git(Loggable):
     def __init__(self, bot):
         self.bot = bot
 
