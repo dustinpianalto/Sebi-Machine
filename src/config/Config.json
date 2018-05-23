@@ -3,5 +3,6 @@
   "display_name" : "[ds!] Dev-Sebi",
   "maintenance": "True",
   "ownerlist": [],
-  "prefix": "ds!"
+  "prefix": "ds!",
+  "dbconnect": ""
 }
