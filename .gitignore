@@ -108,8 +108,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-/src/config/Config.json
-/src/config/PrivateConfig.json
+src/config/Config.json
+src/config/PrivateConfig.json
 
 # Ignore dockerfiles
 docker-compose.yml

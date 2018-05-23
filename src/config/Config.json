@@ -1,7 +1,7 @@
 {
   "version": 0.1,
-  "display_name" : "[S!] Sebi-Machine",
+  "display_name" : "[ds!] Dev-Sebi",
   "maintenance": "True",
   "ownerlist": [],
-  "prefix": "S!"
+  "prefix": "ds!"
 }
