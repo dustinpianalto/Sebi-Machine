@@ -87,6 +87,11 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
         # CommandErrors triggered by other propagating errors tend to get wrapped. This means
         # if we have a cause, we should probably consider unwrapping that so we get a useful
         # message.
+
+        # If command is not found, return
+        if isinstance(error, discord.ext.commands.errors.CommandNotFound):
+            return
+
         error = error.__cause__ or error
         tb = traceback.format_exception(type(error), error, error.__traceback__, limit=2, chain=False)
         tb = ''.join(tb)
@@ -99,6 +104,31 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
             await ctx.send(fmt)
         except:
             traceback.print_exc()
+
+
+    async def on_message(self, message):
+        # Make sure people can't change the username
+        if message.guild:
+            if message.guild.me.display_name != self.display_name:
+                try:
+                    await message.guild.me.edit(nick=self.display_name)
+                except:
+                    pass
+
+        # If author is a bot, ignore the message
+        if message.author.bot: return
+
+        # Make sure the command get processed as if it was typed with lowercase
+        # Split message.content one first space
+        command = message.content.split(None, 1)
+        if command:
+            command[0] = command[0].lower()
+            message.content = ' '.join(command)
+        message.content = ' '.join(command)
+
+        # process command
+        await self.process_commands(message)
+
 
 
 client = SebiMachine()
