@@ -40,11 +40,10 @@ class Git:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.group(case_insensitive=True, invoke_without_subcommand=True)
+    @commands.group(case_insensitive=True, invoke_without_command=True)
     async def git(self, ctx):
         """Run help git for more info"""
-        if ctx.invoked_subcommand is None:
-            ctx.send('https://github.com/Annihilator708/Sebi-Machine/')
+        ctx.send('https://github.com/Annihilator708/Sebi-Machine/')
 
     @git.command()
     async def pull(self, ctx):
