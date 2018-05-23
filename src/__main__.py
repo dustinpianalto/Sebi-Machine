@@ -11,6 +11,7 @@ import logging
 import random
 import traceback
 import os
+import sys
 
 import discord
 from discord.ext import commands
@@ -27,9 +28,15 @@ logging.basicConfig(level='INFO')
 # If uvloop is installed, change to that eventloop policy as it 
 # is more efficient
 try:
-    import uvloop
-    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-    del uvloop
+    # https://stackoverflow.com/a/45700730
+    if sys.platform == 'win32':
+        loop = asyncio.ProactorEventLoop()
+        asyncio.set_event_loop(loop)
+        logging.warning('Detected Windows. Changing event loop to ProactorEventLoop.')
+    else:
+        import uvloop
+        asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+        del uvloop
 except BaseException as ex:
     logging.warning(f'Could not load uvloop. {type(ex).__qualname__}: {ex};',
                     'reverting to default impl.')
