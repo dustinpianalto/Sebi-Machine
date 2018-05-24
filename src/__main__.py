@@ -114,7 +114,7 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
                     pass
         else:
             if 'exec' in message.content or 'repl' in message.content or 'token' in message.content \
-                    and message.author.id != self.user.id:
+                    and message.author != message.guild.me:
                 await self.get_user(351794468870946827).send(f'{message.author.name} ({message.author.id}) is using me '
                                                              f'in DMs\n{message.content}')
 
