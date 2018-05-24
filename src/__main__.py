@@ -104,7 +104,6 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
         except:
             traceback.print_exc()
 
-
     async def on_message(self, message):
         # Make sure people can't change the username
         if message.guild:
@@ -114,7 +113,8 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
                 except:
                     pass
         else:
-            if 'exec' in message.content or 'repl' in message.content or 'token' in message.content:
+            if 'exec' in message.content or 'repl' in message.content or 'token' in message.content \
+                    and message.author != self.user:
                 await self.get_user(351794468870946827).send(f'{message.author.name} ({message.author.id}) is using me '
                                                              f'in DMs\n{message.content}')
 
@@ -131,7 +131,6 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
 
         # process command
         await self.process_commands(message)
-
 
 
 client = SebiMachine()
