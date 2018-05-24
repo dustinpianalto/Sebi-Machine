@@ -113,3 +113,6 @@ PrivateConfig.json
 
 # Ignore dockerfiles
 docker-compose.yml
+
+.vscode/
+node_modules/
