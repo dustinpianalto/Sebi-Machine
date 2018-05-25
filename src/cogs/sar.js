@@ -24,9 +24,9 @@ exports.run = async function(client, message, args) {
         const embed = new Discord.RichEmbed()
             .setTitle("List of Self Assigned Roles")
             .setDescription("Usage: `S!sar [ get | remove | list ] [ number ]`")
-            .addField("1. Heroku Helper", "S!sar get 2", true)
-            .addField("2. JS Helper", "S!sar get 3", true)
-            .addField("3. Rewrite Helper", "S!sar get 4", true)
+            .addField("1. Heroku Helper", "S!sar get 1", true)
+            .addField("2. JS Helper", "S!sar get 2", true)
+            .addField("3. Rewrite Helper", "S!sar get 3", true)
             .setColor("AQUA");
 
         return message.channel.send({
