@@ -79,7 +79,7 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
             # Request url
             async with session.get('http://chillout.ueuo.com/') as request:
                 # print the response status
-                print(f'http://chillout.ueuo.com/ status : {request.status}')
+                self.logger.debug(f'http://chillout.ueuo.com/ status : {request.status}')
         await asyncio.sleep(3600)  # sleep for one hour
             
     async def on_ready(self):
