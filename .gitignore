@@ -1,3 +1,6 @@
+/Config.json
+/PrivateConfig.json
+
 # Byte-compiled / optimized / DLL files
 
 # Recurse
@@ -108,8 +111,7 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-src/config/Config.json
-PrivateConfig.json
+
 
 # Ignore dockerfiles
 docker-compose.yml
