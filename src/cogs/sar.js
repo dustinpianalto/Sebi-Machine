@@ -24,9 +24,10 @@ exports.run = async function(client, message, args) {
         const embed = new Discord.RichEmbed()
             .setTitle("List of Self Assigned Roles")
             .setDescription("Usage: `S!sar [ get | remove | list ] [ number ]`")
-            .addField("1. Heroku Helper", "S!sar get 2", true)
-            .addField("2. JS Helper", "S!sar get 3", true)
-            .addField("3. Rewrite Helper", "S!sar get 4", true);
+            .addField("1. Heroku Helper", "S!sar get 1", true)
+            .addField("2. JS Helper", "S!sar get 2", true)
+            .addField("3. Rewrite Helper", "S!sar get 3", true)
+            .setColor("AQUA");
 
         return message.channel.send({
             embed: embed
@@ -49,10 +50,12 @@ exports.run = async function(client, message, args) {
 
         case "get":
             message.member.addRole(roles[choice]);
+            message.channel.send("Added the role you specified!"); // confirmation message
             break;
 
         case "remove":
             message.member.removeRole(roles[choice]);
+            message.channel.send("Removed the role you specified!"); // confirmation message
             break;
 
         default:
@@ -60,7 +63,5 @@ exports.run = async function(client, message, args) {
             break;
 
     }
-
-    message.channel.send("Added the role you wanted!"); // confirmation message
 
 }
