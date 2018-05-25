@@ -12,7 +12,6 @@ import random
 import traceback
 import os
 import sys
-import aiohttp
 
 import discord
 from discord.ext import commands
@@ -65,27 +64,9 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
             self.load_extension(f'src.cogs.{cog}')
             self.logger.info(f'Loaded: {cog}')
 
-    async def keep_website_alive(self):
-        """
-        Agg provided us with a personal website.
-        This is a free host and this free host provided us with a couple of rules
-        we have to adjust to. One of those rules is that each month atleast one request
-        have to be made with this website. Rule number 10 can be found here:
-        https://www.freewebhostingarea.com/agreement.html.
-        If anyone has a better solution feel free to edit this function.
-        """
-        # Create client session
-        async with aiohttp.ClientSession() as session:
-            # Request url
-            async with session.get('http://chillout.ueuo.com/') as request:
-                # print the response status
-                self.logger.info(f'http://chillout.ueuo.com/ status : {request.status}')
-        await asyncio.sleep(3600)  # sleep for one hour
-            
     async def on_ready(self):
         """On ready function"""
         self.maintenance and self.logger.warning('MAINTENANCE ACTIVE')
-        await asyncio.get_event_loop().create_task(self.keep_website_alive())
 
     async def on_command_error(self, ctx, error):
         """
