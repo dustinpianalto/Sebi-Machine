@@ -85,7 +85,7 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
     async def on_ready(self):
         """On ready function"""
         self.maintenance and self.logger.warning('MAINTENANCE ACTIVE')
-        await self.keep_website_alive()
+        await asyncio.get_event_loop().create_task(self.keep_website_alive())
 
     async def on_command_error(self, ctx, error):
         """
