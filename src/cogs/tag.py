@@ -7,7 +7,7 @@ import asyncio
 class Tag:
 	def __init__(self, bot):
 		self.bot = bot
-		with open("src/resources/tags.json", "r") as fp:
+		with open("src/shared_libs/tags.json", "r") as fp:
 			json_data = fp.read()
 			global tags
 			tags = json.loads(json_data)
@@ -59,7 +59,7 @@ class Tag:
 		if not exists:
 			tags.update({tag_name : tag_info})
 			
-			async with aiofiles.open("src/resources/tags.json", "w") as fp:
+			async with aiofiles.open("src/shared_libs/tags.json", "w") as fp:
 				json_data = json.dumps(tags)
 				await fp.write(json_data)
 				
@@ -84,7 +84,7 @@ class Tag:
 				
 		if found is not None:
 			del tags[found]
-			async with aiofiles.open("src/resources/tags.json", "w") as fp:
+			async with aiofiles.open("src/shared_libs/tags.json", "w") as fp:
 				json_data = json.dumps(tags)
 				await fp.write(json_data)
 				
