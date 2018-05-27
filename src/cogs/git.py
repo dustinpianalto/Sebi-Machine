@@ -41,7 +41,7 @@ class Git(Loggable):
     @commands.group(case_insensitive=True, invoke_without_command=True)
     async def git(self, ctx):
         """Run help git for more info"""
-        await ctx.send('https://github.com/Annihilator708/Sebi-Machine/')
+        await ctx.send('https://github.com/dustinpianalto/Sebi-Machine/')
     
     @commands.command(case_insensitive=True, brief='Gets the Trello link.')
     async def trello(self, ctx):

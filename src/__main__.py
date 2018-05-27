@@ -63,7 +63,7 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
             cog = cog.replace('\n', '')
             self.load_extension(f'src.cogs.{cog}')
             self.logger.info(f'Loaded: {cog}')
-            
+
     async def on_ready(self):
         """On ready function"""
         self.maintenance and self.logger.warning('MAINTENANCE ACTIVE')
