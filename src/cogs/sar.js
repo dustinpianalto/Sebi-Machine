@@ -19,7 +19,7 @@ exports.run = async function(client, message, args) {
 
     const type = args[0]; // can be get, remove or list
 
-    if (type == "list") {
+    if (type == "list" || type == undefined) {
 
         const embed = new Discord.RichEmbed()
             .setTitle("List of Self Assigned Roles")

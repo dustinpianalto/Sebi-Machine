@@ -13,14 +13,14 @@ class Moderation:
 
     @commands.command()
     async def sar(self, ctx):
-        """Assign or remove self assigned roles"""
+        """Assign or remove self assigned roles."""
         pass
         
     @commands.command()
     async def kick(self, ctx, member: discord.Member = None):
         """
         Kick a discord member from your server.
-        Only contributors can use this command
+        Only contributors can use this command.
 
         Usage:
           - kick <discord.member>
