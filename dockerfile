@@ -16,4 +16,4 @@ RUN python3.6 -m pip install --upgrade pip && \
     python3.6 -m pip install -r requirements.txt && \
     python3.6 -m pip install -U git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py[voice]
 
-cmd ["python3.6","run.py"]
+cmd ["python3.6","-m","src"]

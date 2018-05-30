@@ -3,6 +3,7 @@
 
 import json
 import discord
+import os
 
 class LoadConfig:
     """
@@ -14,6 +15,7 @@ class LoadConfig:
             self.config = json.load(fp)
 
         # Initialize config
+
         self.ownerlist = self.config["ownerlist"]
         self.defaultprefix = self.config["prefix"]
         self.version = self.config["version"]

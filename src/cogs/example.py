@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: <encoding name> -*-
+# -*- coding: utf-8 -*-
 
 from discord.ext import commands
 import discord
@@ -17,7 +17,7 @@ class CogName:
         now = ctx.message.created_at
         msg = await ctx.send('Pong')
         sub = msg.created_at - now
-        await msg.edit(content=f'Pong, {sub.total_seconds() * 1000}')
+        await msg.edit(content=f'🏓Pong, **{sub.total_seconds() * 1000}ms**')
         
 
 def setup(bot):

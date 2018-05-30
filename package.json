@@ -1,0 +1,22 @@
+{
+  "name": "sebi-machine",
+  "version": "1.0.0",
+  "description": "Dedicated Discord bot for [Sebi's bot tutorial](http://discord.gg/GWdhBSp).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dustinpianalto/Sebi-Machine.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dustinpianalto/Sebi-Machine/issues"
+  },
+  "homepage": "https://github.com/dustinpianalto/Sebi-Machine#readme",
+  "dependencies": {
+    "discord.js": "^11.3.2"
+  }
+}
