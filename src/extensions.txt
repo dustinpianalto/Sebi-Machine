@@ -5,3 +5,4 @@ code
 git
 fun
 moderation
+BasicCommands
