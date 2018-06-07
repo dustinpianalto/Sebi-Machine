@@ -74,10 +74,9 @@ class Upload:
         extension = extension.lower()
         try:
             self.bot.load_extension("src.cogs.{}".format(extension))
-
         except Exception as e:
             traceback.print_exc()
-            await ctx.send(f'Could not unload `{extension}` -> `{e}`')
+            await ctx.send(f'Could not load `{extension}` -> `{e}`')
         else:
             await ctx.send(f'Loaded `{extension}`.')
 
