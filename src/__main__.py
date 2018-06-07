@@ -55,7 +55,7 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
 
         # Load plugins
         # Add your cog file name in this list
-        with open(in_here('cogs.txt')) as cog_file:
+        with open(in_here('extensions.txt')) as cog_file:
             cogs = cog_file.readlines()
             
         for cog in cogs:
@@ -63,7 +63,7 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
             cog = cog.replace('\n', '')
             self.load_extension(f'src.cogs.{cog}')
             self.logger.info(f'Loaded: {cog}')
-            
+
     async def on_ready(self):
         """On ready function"""
         self.maintenance and self.logger.warning('MAINTENANCE ACTIVE')
