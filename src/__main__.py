@@ -19,6 +19,7 @@ from discord.ext import commands
 from src.config.config import LoadConfig
 from src.shared_libs.loggable import Loggable
 from src.shared_libs.ioutils import in_here
+from src.shared_libs import database
 
 
 # Init logging to output on INFO level to stderr.
@@ -52,6 +53,9 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
         # Initialize and attach config / settings
         LoadConfig.__init__(self)
         commands.Bot.__init__(self, command_prefix=self.defaultprefix)
+        with open(in_here('config', 'PrivateConfig.json')) as fp:
+            self.bot_secrets = json.load(fp)
+        self.db_con = database.DatabaseConnection(**self.bot_secrets['db_con'])
 
         # Load plugins
         # Add your cog file name in this list
@@ -134,11 +138,5 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
 
 
 client = SebiMachine()
-# Make sure the key stays private.
-# I am 99% certain this is valid!
-with open(in_here('config', 'PrivateConfig.json')) as fp:
-    PrivateConfig = json.load(fp)
-if PrivateConfig["bot-key"] == '':
-    PrivateConfig["bot-key"] = os.getenv('botkey')
 
-client.run(PrivateConfig["bot-key"])
+client.run(client.bot_secrets["bot-key"])
