@@ -36,7 +36,7 @@ class BasicCommands:
 		else:
 			if msg.content.lower() in agree:
 				async with ctx.typing():
-					await ctx.author.send("Alrighty-Roo...")
+					await ctx.send("Alrighty-Roo... Check your DMs!")
 					await ctx.author.send(f"""To start making your bot from scratch, you first need to head over to {channel_list['channel-1']} 
 						               (Regardless of the language you're gonna use).""")
 					await ctx.author.send(f"""After you have a bot account, you can either continue with {channel_list['d.py-rewrite-start']} 
