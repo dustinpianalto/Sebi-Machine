@@ -27,13 +27,13 @@ This bot extends the rewrite version of discord.py. A couple of variables have b
 Make sure this one is installed. Example:
 
 ```py
-if self.bot.mainenance:
+if self.bot.maintenance:
     print('I am in the development branch')
 
-if not self.bot.mainenance:
+if not self.bot.maintenance:
     print('I am in the master branch')
 ```
-In other words. `self.mainenance` returns `False` in production and `True` in developer modes.
+In other words. `self.maintenance` returns `False` in production and `True` in developer modes.
 
 > `self.bot.embed_color`
 
