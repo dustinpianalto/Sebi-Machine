@@ -55,7 +55,7 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
         commands.Bot.__init__(self, command_prefix=self.defaultprefix)
         with open(in_here('config', 'PrivateConfig.json')) as fp:
             self.bot_secrets = json.load(fp)
-        self.db_con = database.DatabaseConnection(**self.bot_secrets['db_con'])
+        self.db_con = database.DatabaseConnection(**self.bot_secrets['db-con'])
 
         # Load plugins
         # Add your cog file name in this list
