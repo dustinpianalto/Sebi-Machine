@@ -20,6 +20,12 @@ class BotManager:
 
         em = discord.Embed()
 
+        if await self.bot.db_con.fetchval('select count(*) from bots where owner = $1', ctx.author.id) >= 10:
+            em.colour = self.bot.error_color
+            em.title = 'Too Many Bots Claimed'
+            em.description = 'Each person is limited to claiming 10 bots as that is how ' \
+                             'many bots are allowed by the Discord API per user.'
+            return await ctx.send(embed=em)
         existing = await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id)
         if not existing:
             await self.bot.db_con.execute('insert into bots (id, owner, prefix) values ($1, $2, $3)',
