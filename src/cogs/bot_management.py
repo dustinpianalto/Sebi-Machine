@@ -6,7 +6,8 @@ class BotManager:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='claim', alaises=['makemine', 'gimme'])
+    @commands.command(name='claim', aliases=['makemine', 'gimme'])
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def _claim_bot(self, ctx, bot: discord.Member=None, prefix: str=None):
         if not bot.bot:
             raise RuntimeError('You can only claim bots.')
@@ -62,6 +63,7 @@ class BotManager:
         await ctx.send(embed=em)
 
     @commands.command(name='unclaim')
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def _unclaim_bot(self, ctx, bot: discord.Member=None):
         if not bot.bot:
             raise RuntimeError('You can only unclaim bots.')
