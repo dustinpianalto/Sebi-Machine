@@ -89,6 +89,21 @@ class BotManager:
                              f'{ctx.prefix}claim {bot.mention} {existing["prefix"]}'
         await ctx.send(embed=em)
 
+    @commands.command(name='listclaims', aliases=['claimed', 'mybots'])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def _claimed_bots(self, ctx):
+        bots = await self.bot.db_con.fetch('select * from bots where owner = $1', ctx.author.id)
+        if bots:
+            em = discord.Embed(title='You have claimed the following bots:',
+                               colour=self.bot.embed_color)
+            for bot in bots:
+                member = ctx.guild.get_member(int(bot['id']))
+                em.add_field(name=member.display_name, value=f'Stored Prefix: {bot["prefix"]}', inline=False)
+        else:
+            em = discord.Embed(title='You have not claimed any bots.',
+                               colour=self.bot.embed_color)
+        await ctx.send(embed=em)
+
 
 def setup(bot):
     bot.add_cog(BotManager(bot))
