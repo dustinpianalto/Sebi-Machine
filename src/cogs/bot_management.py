@@ -8,6 +8,8 @@ class BotManager:
 
     @commands.command(name='claim', alaises=['makemine', 'gimme'])
     async def _claim_bot(self, ctx, bot: discord.Member=None, prefix: str=None):
+        if not bot.bot:
+            raise RuntimeError('You can only claim bots.')
         if not bot:
             raise RuntimeError('You must include the name of the bot you are trying to claim... Be exact.')
         if not prefix:
@@ -15,8 +17,6 @@ class BotManager:
                 prefix = bot.display_name.split(']')[0].strip('[')
             else:
                 raise RuntimeError('Prefix not provided and can\'t be found in bot name.')
-        if not bot.bot:
-            raise RuntimeError('You can only claim bots.')
 
         em = discord.Embed()
 
@@ -63,10 +63,10 @@ class BotManager:
 
     @commands.command(name='unclaim')
     async def _unclaim_bot(self, ctx, bot: discord.Member=None):
-        if not bot:
-            raise RuntimeError('You must include the name of the bot you are trying to claim... Be exact.')
         if not bot.bot:
             raise RuntimeError('You can only unclaim bots.')
+        if not bot:
+            raise RuntimeError('You must include the name of the bot you are trying to claim... Be exact.')
 
         em = discord.Embed()
 
