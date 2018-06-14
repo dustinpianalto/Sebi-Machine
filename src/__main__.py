@@ -71,6 +71,12 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
     async def on_ready(self):
         """On ready function"""
         self.maintenance and self.logger.warning('MAINTENANCE ACTIVE')
+        with open(f'src/config/reboot', 'r') as f:
+            reboot = f.readlines()
+        if int(reboot[0]) == 1:
+            await self.get_channel(int(reboot[1])).send('Restart Finished.')
+        with open(f'src/config/reboot', 'w') as f:
+            f.write(f'0')
 
     async def on_command_error(self, ctx, error):
         """

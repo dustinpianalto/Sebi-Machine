@@ -5,6 +5,7 @@ from discord.ext import commands
 import discord
 import traceback
 import aiofiles
+import os
 
 class Upload:
     """
@@ -113,6 +114,17 @@ class Upload:
             return await ctx.send("Extension removed successfully")
         
         await ctx.send("Extension not found")
+
+    @commands.command(hidden=True)
+    async def reboot(self, ctx):
+        if ctx.author.id not in self.bot.ownerlist:
+            return await ctx.send('Only my contributors can use me like this :blush:', delete_after=10)
+        await ctx.send('Sebi-Machine is restarting.')
+        with open(f'src/config/reboot', 'w') as f:
+            f.write(f'1\n{ctx.channel.id}')
+        # noinspection PyProtectedMember
+        os._exit(1)
+
 
 def setup(bot):
     bot.add_cog(Upload(bot))
