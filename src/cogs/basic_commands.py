@@ -37,26 +37,27 @@ class BasicCommands:
         else:
             if msg.content.lower() in agree:
                 async with ctx.typing():
-                    await ctx.send("Alrighty-Roo...")
+                    await ctx.send("Alrighty-Roo... Check your DMs!")
+                    await ctx.author.send("Alrighty-Roo...")
 
-                    await ctx.send(f"To start making your bot from scratch, you first need to head over to {channel_list['channel-1']}" 
-                                    " (Regardless of the language you're gonna use).")
+                    await ctx.author.send(f"To start making your bot from scratch, you first need to head over to {channel_list['channel-1']}" 
+                                          " (Regardless of the language you're gonna use).")
                                     
                     await asyncio.sleep(0.5)
-                    await ctx.send(f"After you have a bot account, you can either continue with {channel_list['d.py-rewrite-start']}" 
-                                   f"if you want to make a bot in discord.py rewrite __or__ go to {channel_list['js-klasa-start']} or "
-                                   f"{channel_list['d.js']} for making a bot in JavaScript.")
+                    await ctx.author.send(f"After you have a bot account, you can either continue with {channel_list['d.py-rewrite-start']}" 
+                                          f"if you want to make a bot in discord.py rewrite __or__ go to {channel_list['js-klasa-start']} or "
+                                          f"{channel_list['d.js']} for making a bot in JavaScript.")
                                     
-                    await ctx.send("...Read all the tutorials and still need help? You have two ways to get help.")
+                    await ctx.author.send("...Read all the tutorials and still need help? You have two ways to get help.")
                     await asyncio.sleep(1.5)
-                    await ctx.send("**Method-1**\nThis is the best method of getting help. You help yourself.\n"
-                                   f"To do so, head over to a bots dedicated channel (either {bots_channels[0]} or {bots_channels[1]})" 
-                                   " and type `?rtfm rewrite thing_you_want_help_with`.\nThis will trigger the bot R.Danny Bot and will"
-                                   "give you links on your query on the official discord.py rewrite docs. *PS: Let the page completely load*")
+                    await ctx.author.send("**Method-1**\nThis is the best method of getting help. You help yourself.\n"
+                                          f"To do so, head over to a bots dedicated channel (either {bots_channels[0]} or {bots_channels[1]})" 
+                                          " and type `?rtfm rewrite thing_you_want_help_with`.\nThis will trigger the bot R.Danny Bot and will"
+                                          "give you links on your query on the official discord.py rewrite docs. *PS: Let the page completely load*")
                                    
                     await asyncio.sleep(5)
-                    await ctx.send("**Method-2**\nIf you haven't found anything useful with Method-1, feel free to ask your question "
-                                   f"in any of the related help channels. ({', '.join(help_channels)})\nMay the force be with you!!")
+                    await ctx.author.send("**Method-2**\nIf you haven't found anything useful with Method-1, feel free to ask your question "
+                                          f"in any of the related help channels. ({', '.join(help_channels)})\nMay the force be with you!!")
                                     
             else:
                 return await ctx.send("Session terminated. You can run this command again whenever you want.")
