@@ -20,6 +20,7 @@ from src.config.config import LoadConfig
 from src.shared_libs.loggable import Loggable
 from src.shared_libs.ioutils import in_here
 from src.shared_libs import database
+from typing import Dict
 
 
 # Init logging to output on INFO level to stderr.
@@ -56,6 +57,15 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
         with open(in_here('config', 'PrivateConfig.json')) as fp:
             self.bot_secrets = json.load(fp)
         self.db_con = database.DatabaseConnection(**self.bot_secrets['db-con'])
+        self.book_emojis: Dict[str, str] = {
+            'unlock': '🔓',
+            'start': '⏮',
+            'back': '◀',
+            'hash': '#\N{COMBINING ENCLOSING KEYCAP}',
+            'forward': '▶',
+            'end': '⏭',
+            'close': '🇽',
+        }
 
         # Load plugins
         # Add your cog file name in this list
