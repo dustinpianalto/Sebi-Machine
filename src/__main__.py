@@ -99,20 +99,20 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
         # message.
 
         # If command is not found, return
+        em = discord.Embed(colour=self.error_color)
         if isinstance(error, discord.ext.commands.errors.CommandNotFound):
-            return
+            em.title = 'Command Not Found'
+            em.description = f'{ctx.prefix}{ctx.command} is not a valid command.'
+        else:
+            error = error.__cause__ or error
+            tb = traceback.format_exception(type(error), error, error.__traceback__, limit=2, chain=False)
+            tb = ''.join(tb)
+            joke = random.choice(jokes)
+            fmt = f'**`{self.defaultprefix}{ctx.command}`**\n{joke}\n\n**{type(error).__name__}:**:\n```py\n{tb}\n```'
+            em.title = f'{type(error)} in command {ctx.prefix}{ctx.command}'
+            em.description = str(error)
 
-        error = error.__cause__ or error
-        tb = traceback.format_exception(type(error), error, error.__traceback__, limit=2, chain=False)
-        tb = ''.join(tb)
-        joke = random.choice(jokes)
-        fmt = f'**`{self.defaultprefix}{ctx.command}`**\n{joke}\n\n**{type(error).__name__}:**:\n```py\n{tb}\n```'
-        
-        # Stops the error handler erroring.
-        try:
-            await ctx.send(fmt)
-        except:
-            traceback.print_exc()
+        await ctx.send(embed=em)
 
     async def on_message(self, message):
         # Make sure people can't change the username
