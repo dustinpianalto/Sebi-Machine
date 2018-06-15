@@ -93,10 +93,12 @@ class BotManager:
 
     @commands.command(name='listclaims', aliases=['claimed', 'mybots'])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def _claimed_bots(self, ctx):
-        bots = await self.bot.db_con.fetch('select * from bots where owner = $1', ctx.author.id)
+    async def _claimed_bots(self, ctx, usr: discord.Member=None):
+        if usr is None:
+            usr = ctx.author
+        bots = await self.bot.db_con.fetch('select * from bots where owner = $1', usr.id)
         if bots:
-            em = discord.Embed(title='You have claimed the following bots:',
+            em = discord.Embed(title='{usr.display_name} has claimed the following bots:',
                                colour=self.bot.embed_color)
             for bot in bots:
                 member = ctx.guild.get_member(int(bot['id']))
