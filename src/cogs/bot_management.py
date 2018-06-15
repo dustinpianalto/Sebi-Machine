@@ -112,7 +112,7 @@ class BotManager:
             await ctx.send('this commands only for bots')
         else:
             owner = await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id)
-            await ctx.send(ctx.server.get_member(owner['owner']).display_name)
+            await ctx.send(ctx.guild.get_member(owner['owner']).display_name)
 
 
 
