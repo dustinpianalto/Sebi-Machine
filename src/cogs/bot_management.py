@@ -106,8 +106,8 @@ class BotManager:
                                colour=self.bot.embed_color)
         await ctx.send(embed=em)
 
-    @commands.command()
-    async def whowns(self, ctx, bot: discord.Member):
+    @commands.command(name='whowns')
+    async def _whowns(self, ctx, bot: discord.Member):
         if not bot.bot:
             await ctx.send('this commands only for bots')
         else:
