@@ -10,14 +10,14 @@ class BotManager:
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def _claim_bot(self, ctx, bot: discord.Member=None, prefix: str=None):
         if not bot:
-            raise RuntimeError('You must include the name of the bot you are trying to claim... Be exact.')
+            raise Warning('You must include the name of the bot you are trying to claim... Be exact.')
         if not bot.bot:
-            raise RuntimeError('You can only claim bots.')
+            raise Warning('You can only claim bots.')
         if not prefix:
             if bot.display_name.startswith('['):
                 prefix = bot.display_name.split(']')[0].strip('[')
             else:
-                raise RuntimeError('Prefix not provided and can\'t be found in bot name.')
+                raise Warning('Prefix not provided and can\'t be found in bot name.')
 
         em = discord.Embed()
 
@@ -66,9 +66,9 @@ class BotManager:
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def _unclaim_bot(self, ctx, bot: discord.Member=None):
         if not bot:
-            raise RuntimeError('You must include the name of the bot you are trying to claim... Be exact.')
+            raise Warning('You must include the name of the bot you are trying to claim... Be exact.')
         if not bot.bot:
-            raise RuntimeError('You can only unclaim bots.')
+            raise Warning('You can only unclaim bots.')
 
         em = discord.Embed()
 
