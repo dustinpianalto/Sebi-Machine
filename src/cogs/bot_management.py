@@ -8,7 +8,7 @@ class BotManager:
 
     @commands.command(name='claim', aliases=['makemine', 'gimme'])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def _claim_bot(self, ctx, bot: discord.Member=None, prefix: str=None):
+    async def _claim_bot(self, ctx, bot: discord.Member=None, prefix: str=None, owner : discord.Member =None):
         if not bot:
             raise Warning('You must include the name of the bot you are trying to claim... Be exact.')
         if not bot.bot:
@@ -18,10 +18,14 @@ class BotManager:
                 prefix = bot.display_name.split(']')[0].strip('[')
             else:
                 raise Warning('Prefix not provided and can\'t be found in bot name.')
-
+        
+        if owner != None and ctx.author.guild_permissions.manage_guild:
+            author_id = owner.id
+        else:
+            author_id = ctx.author.id
         em = discord.Embed()
 
-        if await self.bot.db_con.fetchval('select count(*) from bots where owner = $1', ctx.author.id) >= 10:
+        if await self.bot.db_con.fetchval('select count(*) from bots where owner = $1', author_id) >= 10:
             em.colour = self.bot.error_color
             em.title = 'Too Many Bots Claimed'
             em.description = 'Each person is limited to claiming 10 bots as that is how ' \
@@ -30,18 +34,18 @@ class BotManager:
         existing = await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id)
         if not existing:
             await self.bot.db_con.execute('insert into bots (id, owner, prefix) values ($1, $2, $3)',
-                                          bot.id, ctx.author.id, prefix)
+                                          bot.id, author_id, prefix)
             em.colour = self.bot.embed_color
             em.title = 'Bot Claimed'
             em.description = f'You have claimed {bot.display_name} with a prefix of {prefix}\n' \
                              f'If there is an error please run command again to correct the prefix,\n' \
                              f'or {ctx.prefix}unclaim {bot.mention} to unclaim the bot.'
-        elif existing['owner'] and existing['owner'] != ctx.author.id:
+        elif existing['owner'] and existing['owner'] != author_id:
             em.colour = self.bot.error_color
             em.title = 'Bot Already Claimed'
             em.description = 'This bot has already been claimed by someone else.\n' \
                              'If this is actually your bot please let the guild Administrators know.'
-        elif existing['owner'] and existing['owner'] == ctx.author.id:
+        elif existing['owner'] and existing['owner'] == author_id:
             em.colour = self.bot.embed_color
             em.title = 'Bot Already Claimed'
             em.description = 'You have already claimed this bot.\n' \
@@ -51,7 +55,7 @@ class BotManager:
                 await self.bot.db_con.execute("update bots set prefix = $1 where id = $2", prefix, bot.id)
         elif not existing['owner']:
             await self.bot.db_con.execute('update bots set owner = $1, prefix = $2 where id = $3',
-                                          ctx.author.id, prefix, bot.id)
+                                          author_id, prefix, bot.id)
             em.colour = self.bot.embed_color
             em.title = 'Bot Claimed'
             em.description = f'You have claimed {bot.display_name} with a prefix of {prefix}\n' \
@@ -77,7 +81,7 @@ class BotManager:
             em.colour = self.bot.error_color
             em.title = 'Bot Not Found'
             em.description = 'That bot is not claimed'
-        elif existing['owner'] != ctx.author.id:
+        elif existing['owner'] != ctx.author.id and ctx.author.guild_permissions.manage_guild:
             em.colour = self.bot.error_color
             em.title = 'Not Claimed By You'
             em.description = 'That bot is claimed by someone else.\n' \
