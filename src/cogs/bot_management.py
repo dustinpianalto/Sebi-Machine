@@ -106,6 +106,15 @@ class BotManager:
                                colour=self.bot.embed_color)
         await ctx.send(embed=em)
 
+    @commands.command()
+    async def whowns(self, ctx, bot: discord.Member):
+        if not bot.bot:
+            await ctx.send('this commands only for bots')
+        else:
+            owner = await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id)
+            await ctx.send(owner['owner'])
+
+
 
 def setup(bot):
     bot.add_cog(BotManager(bot))
