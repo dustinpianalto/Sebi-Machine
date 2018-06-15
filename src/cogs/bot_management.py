@@ -98,7 +98,7 @@ class BotManager:
             usr = ctx.author
         bots = await self.bot.db_con.fetch('select * from bots where owner = $1', usr.id)
         if bots:
-            em = discord.Embed(title='{usr.display_name} has claimed the following bots:',
+            em = discord.Embed(title=f'{usr.display_name} has claimed the following bots:',
                                colour=self.bot.embed_color)
             for bot in bots:
                 member = ctx.guild.get_member(int(bot['id']))
