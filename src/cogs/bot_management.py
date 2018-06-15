@@ -9,10 +9,10 @@ class BotManager:
     @commands.command(name='claim', aliases=['makemine', 'gimme'])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def _claim_bot(self, ctx, bot: discord.Member=None, prefix: str=None):
-        if not bot.bot:
-            raise RuntimeError('You can only claim bots.')
         if not bot:
             raise RuntimeError('You must include the name of the bot you are trying to claim... Be exact.')
+        if not bot.bot:
+            raise RuntimeError('You can only claim bots.')
         if not prefix:
             if bot.display_name.startswith('['):
                 prefix = bot.display_name.split(']')[0].strip('[')
@@ -65,10 +65,10 @@ class BotManager:
     @commands.command(name='unclaim')
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def _unclaim_bot(self, ctx, bot: discord.Member=None):
-        if not bot.bot:
-            raise RuntimeError('You can only unclaim bots.')
         if not bot:
             raise RuntimeError('You must include the name of the bot you are trying to claim... Be exact.')
+        if not bot.bot:
+            raise RuntimeError('You can only unclaim bots.')
 
         em = discord.Embed()
 
