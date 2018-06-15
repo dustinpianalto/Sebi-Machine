@@ -102,14 +102,14 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
         em = discord.Embed(colour=self.error_color)
         if isinstance(error, discord.ext.commands.errors.CommandNotFound):
             em.title = 'Command Not Found'
-            em.description = f'{ctx.prefix}{ctx.command} is not a valid command.'
+            em.description = f'{ctx.prefix}{ctx.invoked_with} is not a valid command.'
         else:
             error = error.__cause__ or error
             tb = traceback.format_exception(type(error), error, error.__traceback__, limit=2, chain=False)
             tb = ''.join(tb)
             joke = random.choice(jokes)
             fmt = f'**`{self.defaultprefix}{ctx.command}`**\n{joke}\n\n**{type(error).__name__}:**:\n```py\n{tb}\n```'
-            em.title = f'{type(error)} in command {ctx.prefix}{ctx.command}'
+            em.title = f'**{type(error).__name__}** in command {ctx.prefix}{ctx.command}'
             em.description = str(error)
 
         await ctx.send(embed=em)
