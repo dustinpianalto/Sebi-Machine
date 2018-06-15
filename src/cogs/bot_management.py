@@ -79,7 +79,7 @@ class BotManager:
             em.description = 'That bot is not claimed'
         elif existing['owner'] != ctx.author.id:
             em.colour = self.bot.error_color
-            em.title = 'Not Not Claimed By You'
+            em.title = 'Not Claimed By You'
             em.description = 'That bot is claimed by someone else.\n' \
                              'You can\'t unclaim someone else\'s bot'
         else:
