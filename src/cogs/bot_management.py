@@ -5,7 +5,45 @@ from discord.ext import commands
 class BotManager:
     def __init__(self, bot):
         self.bot = bot
+    
+    async def on_message(self, message):
+        if message.channel.id is 411586546551095296:
+            #Its the bot-invite channel
+            splitted_message = message.content.split(" ")
+            await message.delete()
+            em = discord.Embed()
 
+            if len(splitted_message) != 2:
+                em.colour = self.bot.error_color
+                em.title = 'Invalid usage'
+                em.description = 'Usage of command: <bot_id> <bot_prefix>'
+                return await message.channel.send(embed = em, delete_after=10)
+            
+            try:
+                to_invite = bot.get_member(splitted_message[0])
+            except:
+                em.colour = self.bot.error_color
+                em.title = 'Invalid id'
+                em.description = 'Please provide a valid id'
+                return await message.channel.send(embed = em, delete_after=10)
+
+            if to_invite.bot != True:
+                em.colour = self.bot.error_color
+                em.title = 'Invalid id'
+                em.description = 'This id doesn\'t correspond to a bot'
+                return await message.channel.send(embed = em, delete_after=10)
+
+            em.name("Hello {},".format(ctx.author.name))
+            em.description("Thanks for inviting your bot! It will be tested and invited shortly. Please open your DMs if they are not already so the bot can contact you to inform you about the progress of the bot!
+")
+            em.colour(discord.Color(0x363941))
+            em.set_thumbnail(url=ctx.author.avatar_url)
+            em.add_field(name="Bot name", value=to_invite.name)
+            em.add_field(name="Bot id", value="`" + str(to_invite.id) + "`")
+            em.add_field(name="Bot owner", value=message.author.mention)
+            em.add_field(name="Bot prefix", value="`" + splitted_message[1] + "`")
+            await message.channel.send(embed = em)
+    
     @commands.command(name='claim', aliases=['makemine', 'gimme'])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def _claim_bot(self, ctx, bot: discord.Member=None, prefix: str=None, owner : discord.Member =None):
@@ -81,7 +119,7 @@ class BotManager:
             em.colour = self.bot.error_color
             em.title = 'Bot Not Found'
             em.description = 'That bot is not claimed'
-        elif existing['owner'] != ctx.author.id and ctx.author.guild_permissions.manage_guild:
+        elif existing['owner'] != ctx.author.id and not ctx.author.guild_permissions.manage_guild:
             em.colour = self.bot.error_color
             em.title = 'Not Claimed By You'
             em.description = 'That bot is claimed by someone else.\n' \
