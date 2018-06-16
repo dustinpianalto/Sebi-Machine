@@ -7,7 +7,7 @@ class BotManager:
         self.bot = bot
     
     @commands.command()
-    async def invite(self, bot_id :discord.Member = None, prefix = None):
+    async def invite(self, ctx, bot_id :discord.Member = None, prefix = None):
             if not bot_id:
                 raise Warning('You must include the id of the bot you are trying to invite... Be exact.')
             if not bot_id.bot:
