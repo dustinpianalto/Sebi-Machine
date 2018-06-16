@@ -7,15 +7,15 @@ class BotManager:
         self.bot = bot
     
     @commands.command()
-    async def invite(self, bot_id :discord.Member = None, prefix = None)
+    async def invite(self, bot_id :discord.Member = None, prefix = None):
             em = discord.Embed()
 
             if not bot:
-            raise Warning('You must include the id of the bot you are trying to invite... Be exact.')
-        if not bot.bot:
-            raise Warning('You can only invite bots.')
-        if not prefix:
-            raise Warning('Please provide a prefix')
+                raise Warning('You must include the id of the bot you are trying to invite... Be exact.')
+            if not bot.bot:
+                raise Warning('You can only invite bots.')
+            if not prefix:
+                raise Warning('Please provide a prefix')
             
             em.name("Hello {},".format(ctx.author.name))
             em.description("Thanks for inviting your bot! It will be tested and invited shortly. Please open your DMs if they are not already so the bot can contact you to inform you about the progress of the bot!")
