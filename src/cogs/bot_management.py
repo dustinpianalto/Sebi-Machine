@@ -7,7 +7,7 @@ class BotManager:
         self.bot = bot
     
     async def on_message(self, message):
-        if message.channel.id is 411586546551095296:
+        if message.channel.id == 411586546551095296:
             #Its the bot-invite channel
             splitted_message = message.content.split(" ")
             await message.delete()
