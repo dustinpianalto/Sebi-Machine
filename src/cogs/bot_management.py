@@ -6,6 +6,7 @@ class BotManager:
     def __init__(self, bot):
         self.bot = bot
     
+    @commands.command()
     async def invite(self, bot_id :discord.Member = None, prefix = None)
             em = discord.Embed()
 
@@ -17,15 +18,18 @@ class BotManager:
             raise Warning('Please provide a prefix')
             
             em.name("Hello {},".format(ctx.author.name))
-            em.description("Thanks for inviting your bot! It will be tested and invited shortly. Please open your DMs if they are not already so the bot can contact you to inform you about the progress of the bot!
-")
+            em.description("Thanks for inviting your bot! It will be tested and invited shortly. Please open your DMs if they are not already so the bot can contact you to inform you about the progress of the bot!")
+            em.colour(self.bot.embed_color)
+            await ctx.send(embed = em)
+            
+            em = discord.Embed()
             em.colour(discord.Color(0x363941))
             em.set_thumbnail(url=ctx.author.avatar_url)
             em.add_field(name="Bot name", value=to_invite.name)
             em.add_field(name="Bot id", value="`" + str(to_invite.id) + "`")
             em.add_field(name="Bot owner", value=message.author.mention)
             em.add_field(name="Bot prefix", value="`" + splitted_message[1] + "`")
-            await message.channel.send(embed = em)
+            await ctx.bot.get_channe(448803675574370304).send(embed = em)
     
     @commands.command(name='claim', aliases=['makemine', 'gimme'])
     @commands.cooldown(1, 5, commands.BucketType.user)
