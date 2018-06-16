@@ -34,8 +34,7 @@ class BotManager:
                 return await message.channel.send(embed = em, delete_after=10)
 
             em.name("Hello {},".format(ctx.author.name))
-            em.description("Thanks for inviting your bot! It will be tested and invited shortly. Please open your DMs if they are not already so the bot can contact you to inform you about the progress of the bot!
-")
+            em.description("Thanks for inviting your bot! It will be tested and invited shortly. Please open your DMs if they are not already so the bot can contact you to inform you about the progress of the bot!")
             em.colour(discord.Color(0x363941))
             em.set_thumbnail(url=ctx.author.avatar_url)
             em.add_field(name="Bot name", value=to_invite.name)
