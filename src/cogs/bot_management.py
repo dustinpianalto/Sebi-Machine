@@ -8,15 +8,14 @@ class BotManager:
     
     @commands.command()
     async def invite(self, bot_id :discord.Member = None, prefix = None):
-            em = discord.Embed()
-
-            if not bot:
+            if not bot_id:
                 raise Warning('You must include the id of the bot you are trying to invite... Be exact.')
-            if not bot.bot:
+            if not bot_id.bot:
                 raise Warning('You can only invite bots.')
             if not prefix:
                 raise Warning('Please provide a prefix')
             
+            em = discord.Embed()
             em.name("Hello {},".format(ctx.author.name))
             em.description("Thanks for inviting your bot! It will be tested and invited shortly. Please open your DMs if they are not already so the bot can contact you to inform you about the progress of the bot!")
             em.colour(self.bot.embed_color)
@@ -25,10 +24,10 @@ class BotManager:
             em = discord.Embed()
             em.colour(discord.Color(0x363941))
             em.set_thumbnail(url=ctx.author.avatar_url)
-            em.add_field(name="Bot name", value=to_invite.name)
-            em.add_field(name="Bot id", value="`" + str(to_invite.id) + "`")
-            em.add_field(name="Bot owner", value=message.author.mention)
-            em.add_field(name="Bot prefix", value="`" + splitted_message[1] + "`")
+            em.add_field(name="Bot name", value=bot_id.name)
+            em.add_field(name="Bot id", value="`" + str(bot_id.id) + "`")
+            em.add_field(name="Bot owner", value=ctx.author.mention)
+            em.add_field(name="Bot prefix", value="`" + prefix + "`")
             await ctx.bot.get_channe(448803675574370304).send(embed = em)
     
     @commands.command(name='claim', aliases=['makemine', 'gimme'])
