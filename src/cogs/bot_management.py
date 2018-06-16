@@ -15,10 +15,9 @@ class BotManager:
             if not prefix:
                 raise Warning('Please provide a prefix')
             
-            em = discord.Embed()
+            em = discord.Embed(colour = self.bot.embed_color)
             em.title("Hello {},".format(ctx.author.name))
             em.description("Thanks for inviting your bot! It will be tested and invited shortly. Please open your DMs if they are not already so the bot can contact you to inform you about the progress of the bot!")
-            em.colour(self.bot.embed_color)
             await ctx.send(embed = em)
             
             em = discord.Embed(title = "Bot invite", colour=discord.Color(0x363941))
