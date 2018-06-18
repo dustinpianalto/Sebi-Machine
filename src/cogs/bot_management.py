@@ -41,10 +41,11 @@ class BotManager:
             else:
                 raise Warning('Prefix not provided and can\'t be found in bot name.')
         
-        if owner != None and ctx.author.guild_permissions.manage_guild:
+        if owner != None and ctx.author.guild_permissions.manage_roles:
             author_id = owner.id
         else:
             author_id = ctx.author.id
+            
         em = discord.Embed()
 
         if await self.bot.db_con.fetchval('select count(*) from bots where owner = $1', author_id) >= 10:
@@ -103,7 +104,7 @@ class BotManager:
             em.colour = self.bot.error_color
             em.title = 'Bot Not Found'
             em.description = 'That bot is not claimed'
-        elif existing['owner'] != ctx.author.id and ctx.author.guild_permissions.manage_guild:
+        elif existing['owner'] != ctx.author.id and not ctx.author.guild_permissions.manage_roles:
             em.colour = self.bot.error_color
             em.title = 'Not Claimed By You'
             em.description = 'That bot is claimed by someone else.\n' \
