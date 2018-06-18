@@ -7,7 +7,7 @@ class BotManager:
         self.bot = bot
     
     @commands.command()
-    async def invite(self, ctx, bot_id :discord.Member = None, prefix = None):
+    async def invite(self, ctx, bot_id: discord.Member = None, prefix=None):
             if not bot_id:
                 raise Warning('You must include the id of the bot you are trying to invite... Be exact.')
             if not bot_id.bot:
@@ -15,22 +15,24 @@ class BotManager:
             if not prefix:
                 raise Warning('Please provide a prefix')
             
-            em = discord.Embed(colour = self.bot.embed_color)
+            em = discord.Embed(colour=self.bot.embed_color)
             em.title = "Hello {},".format(ctx.author.name)
-            em.description = "Thanks for inviting your bot! It will be tested and invited shortly. Please open your DMs if they are not already so the bot can contact you to inform you about the progress of the bot!"
-            await ctx.send(embed = em)
+            em.description = "Thanks for inviting your bot! It will be tested and invited shortly. " \
+                             "Please open your DMs if they are not already so the bot can contact " \
+                             "you to inform you about the progress of the bot!"
+            await ctx.send(embed=em)
             
-            em = discord.Embed(title = "Bot invite", colour=discord.Color(0x363941))
+            em = discord.Embed(title="Bot invite", colour=discord.Color(0x363941))
             em.set_thumbnail(url=bot_id.avatar_url)
             em.add_field(name="Bot name", value=bot_id.name)
             em.add_field(name="Bot id", value="`" + str(bot_id.id) + "`")
             em.add_field(name="Bot owner", value=ctx.author.mention)
             em.add_field(name="Bot prefix", value="`" + prefix + "`")
-            await ctx.bot.get_channel(448803675574370304).send(embed = em)
+            await ctx.bot.get_channel(448803675574370304).send(embed=em)
     
     @commands.command(name='claim', aliases=['makemine', 'gimme'])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def _claim_bot(self, ctx, bot: discord.Member=None, prefix: str=None, owner : discord.Member =None):
+    async def _claim_bot(self, ctx, bot: discord.Member=None, prefix: str=None, owner: discord.Member =None):
         if not bot:
             raise Warning('You must include the name of the bot you are trying to claim... Be exact.')
         if not bot.bot:
@@ -41,7 +43,7 @@ class BotManager:
             else:
                 raise Warning('Prefix not provided and can\'t be found in bot name.')
         
-        if owner != None and ctx.author.guild_permissions.manage_guild:
+        if owner is not None and ctx.author.guild_permissions.manage_guild:
             author_id = owner.id
         else:
             author_id = ctx.author.id
@@ -141,7 +143,6 @@ class BotManager:
         else:
             owner = await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id)
             await ctx.send(ctx.guild.get_member(owner['owner']).display_name)
-
 
 
 def setup(bot):
