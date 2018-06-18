@@ -103,7 +103,7 @@ class BotManager:
             em.colour = self.bot.error_color
             em.title = 'Bot Not Found'
             em.description = 'That bot is not claimed'
-        elif existing['owner'] != ctx.author.id and not ctx.author.guild_permissions.manage_guild:
+        elif existing['owner'] != ctx.author.id and ctx.author.guild_permissions.manage_guild:
             em.colour = self.bot.error_color
             em.title = 'Not Claimed By You'
             em.description = 'That bot is claimed by someone else.\n' \
