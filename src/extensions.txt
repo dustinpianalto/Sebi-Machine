@@ -7,3 +7,4 @@ fun
 moderation
 basic_commands
 bot_management
+music
