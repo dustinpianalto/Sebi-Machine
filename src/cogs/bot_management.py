@@ -1,38 +1,95 @@
-import discord
+    import discord
 from discord.ext import commands
 
 
 class BotManager:
     def __init__(self, bot):
         self.bot = bot
-    
+
     @commands.command()
-    async def invite(self, ctx, bot_id: discord.Member = None, prefix=None):
-            if not bot_id:
-                raise Warning('You must include the id of the bot you are trying to invite... Be exact.')
-            if not bot_id.bot:
-                raise Warning('You can only invite bots.')
-            if not prefix:
-                raise Warning('Please provide a prefix')
-            
-            em = discord.Embed(colour=self.bot.embed_color)
-            em.title = "Hello {},".format(ctx.author.name)
-            em.description = "Thanks for inviting your bot! It will be tested and invited shortly. " \
-                             "Please open your DMs if they are not already so the bot can contact " \
-                             "you to inform you about the progress of the bot!"
-            await ctx.send(embed=em)
-            
-            em = discord.Embed(title="Bot invite", colour=discord.Color(0x363941))
-            em.set_thumbnail(url=bot_id.avatar_url)
-            em.add_field(name="Bot name", value=bot_id.name)
-            em.add_field(name="Bot id", value="`" + str(bot_id.id) + "`")
-            em.add_field(name="Bot owner", value=ctx.author.mention)
-            em.add_field(name="Bot prefix", value="`" + prefix + "`")
-            await ctx.bot.get_channel(448803675574370304).send(embed=em)
-    
+    async def invite(self, ctx, bot: discord.Member = None, prefix=None):
+        if not bot:
+            raise Warning('You must include the id of the bot you are trying to invite... Be exact.')
+        if not bot.bot:
+            raise Warning('You can only invite bots.')
+        if not prefix:
+            raise Warning('Please provide a prefix')
+
+        # Make sure that the bot has not been invited already and is no being tested
+        if await self.bot.db_con.fetch('select count(*) from bots where id = $1', bot.id) == 1:
+            raise Warning('The bot has already been invited')
+
+        await self.bot.db_con.execute('insert into bots (id, owner, prefix) values ($1, $2, $3)'
+                                      ,bot.id, ctx.author.id, prefix)
+
+        em = discord.Embed(colour=self.bot.embed_color)
+        em.title = "Hello {},".format(ctx.author.name)
+        em.description = "Thanks for inviting your bot! It will be tested and invited shortly. " \
+                         "Please open your DMs if they are not already so the bot can contact " \
+                         "you to inform you about the progress of the bot!"
+        await ctx.send(embed=em)
+
+        em = discord.Embed(title="Bot invite", colour=discord.Color(0x363941))
+        em.set_thumbnail(url=bot.avatar_url)
+        em.add_field(name="Bot name", value=bot.name)
+        em.add_field(name="Bot id", value="`" + str(bot.id) + "`")
+        em.add_field(name="Bot owner", value=ctx.author.mention)
+        em.add_field(name="Bot prefix", value="`" + prefix + "`")
+        await ctx.bot.get_channel(448803675574370304).send(embed=em)
+
+    @commands.command()
+    async def start(self, ctx, bot: discord.Member = None):
+        if not ctx.author.guild_permissions.manage_roles:
+            raise Warning('You are not allowed to execute this command')
+        if not bot:
+            raise Warning('You must include the id of the bot you are going to test... Be exact.')
+
+        if await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id):
+            user = await self.bot.db_con.fetch('select owner from bots where id = $1', bot.id)
+            await ctx.get_user(user).send('Your bot is being tested by ' + str(ctx.author))
+            await ctx.send('The owner has been warned')
+        else:
+            raise Warning('The bot id that you provided could not be found on the database')
+
+    @commands.group()
+    async def finish(self, ctx):
+        if ctx.invoked_subcommand is not None:
+            await ctx.send("Do `ds!help finish` for more info")
+
+    @finish.command()
+    async def approve(self, ctx, bot: discord.Member = None):
+        if not ctx.author.guild_permissions.manage_roles:
+            raise Warning('You are not allowed to execute this command')
+        if not bot:
+            raise Warning('You must include the id of the bot you have finished testing... Be exact.')
+
+        if await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id):
+            user = await self.bot.db_con.fetch('select owner from bots where id = $1', bot.id)
+            await ctx.get_user(user).send('Your bot has been tested by ' + str(ctx.author) + '\n**Result:** Approved')
+            await ctx.send('The owner has been warned')
+        else:
+            raise Warning('The bot id that you provided could not be found on the database')
+
+    @finish.command()
+    async def decline(self, ctx, bot: discord.Member = None, reason=None):
+        if not ctx.author.guild_permissions.manage_roles:
+            raise Warning('You are not allowed to execute this command')
+        if not bot:
+            raise Warning('You must include the id of the bot you have finished testing... Be exact.')
+        if not reason:
+            raise Warning('You must include the reason for declining the bot... Be exact.')
+
+        if await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id):
+            user = await self.bot.db_con.fetch('select owner from bots where id = $1', bot.id)
+            await ctx.get_user(user).send('Your bot has been tested by ' + str(ctx.author) +
+                                          '\n**Result:** Declined\n**Reason:** ' + reason)
+            await ctx.send('The owner has been warned')
+        else:
+            raise Warning('The bot id that you provided could not be found on the database')
+
     @commands.command(name='claim', aliases=['makemine', 'gimme'])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def _claim_bot(self, ctx, bot: discord.Member=None, prefix: str=None, owner: discord.Member =None):
+    async def _claim_bot(self, ctx, bot: discord.Member = None, prefix: str = None, owner: discord.Member = None):
         if not bot:
             raise Warning('You must include the name of the bot you are trying to claim... Be exact.')
         if not bot.bot:
@@ -41,13 +98,13 @@ class BotManager:
             if bot.display_name.startswith('['):
                 prefix = bot.display_name.split(']')[0].strip('[')
             else:
-                raise Warning('Prefix not provided and can\'t be found in bot name.')
-        
+                raise Warning('Prefix not provided and can\'t be found in bot nick.')
+
         if owner is not None and ctx.author.guild_permissions.manage_roles:
             author_id = owner.id
         else:
             author_id = ctx.author.id
-            
+
         em = discord.Embed()
 
         if await self.bot.db_con.fetchval('select count(*) from bots where owner = $1', author_id) >= 10:
@@ -93,7 +150,7 @@ class BotManager:
 
     @commands.command(name='unclaim')
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def _unclaim_bot(self, ctx, bot: discord.Member=None):
+    async def _unclaim_bot(self, ctx, bot: discord.Member = None):
         if not bot:
             raise Warning('You must include the name of the bot you are trying to claim... Be exact.')
         if not bot.bot:
@@ -122,7 +179,7 @@ class BotManager:
 
     @commands.command(name='listclaims', aliases=['claimed', 'mybots'])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def _claimed_bots(self, ctx, usr: discord.Member=None):
+    async def _claimed_bots(self, ctx, usr: discord.Member = None):
         if usr is None:
             usr = ctx.author
         bots = await self.bot.db_con.fetch('select * from bots where owner = $1', usr.id)
