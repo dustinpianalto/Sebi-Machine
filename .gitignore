@@ -118,3 +118,5 @@ docker-compose.yml
 
 .vscode/
 node_modules/
+*.xml
+*.iml
