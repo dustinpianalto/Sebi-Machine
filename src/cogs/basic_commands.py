@@ -10,7 +10,7 @@ class BasicCommands:
         self.bot = bot
 
     @commands.command()
-    async def start(self, ctx):
+    async def tutorial(self, ctx):
         await ctx.send(f"Hello, {ctx.author.display_name}. Welcome to Sebi's Bot Tutorials. \nFirst off, would you like a quick walkthrough on the server channels?")
         
         channel_list = {'channel-1'             : self.bot.get_channel(333149949883842561).mention, 
