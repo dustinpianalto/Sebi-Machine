@@ -10,11 +10,6 @@ class Moderation:
     """
     def __init__(self, bot):
         self.bot = bot
-
-    @commands.command()
-    async def sar(self, ctx):
-        """Assign or remove self assigned roles."""
-        pass
         
     @commands.command()
     async def kick(self, ctx, member: discord.Member = None):
