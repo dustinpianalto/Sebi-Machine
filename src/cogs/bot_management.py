@@ -7,7 +7,7 @@ class BotManager:
         self.bot = bot
 
     @commands.command()
-    async def invite(self, ctx, bot: discord.Member = None, prefix=None):
+    async def invite(self, ctx, bot: discord.User=None, prefix=None):
         if not bot:
             raise Warning('You must include the id of the bot you are trying to invite... Be exact.')
         if not bot.bot:
@@ -20,7 +20,7 @@ class BotManager:
             raise Warning('The bot has already been invited')
 
         await self.bot.db_con.execute('insert into bots (id, owner, prefix) values ($1, $2, $3)'
-                                      ,bot.id, ctx.author.id, prefix)
+                                      , bot.id, ctx.author.id, prefix)
 
         em = discord.Embed(colour=self.bot.embed_color)
         em.title = "Hello {},".format(ctx.author.name)
