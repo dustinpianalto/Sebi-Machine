@@ -14,7 +14,7 @@ class BotManager:
             # The member is a bot
             await member.add_roles(discord.utils.get(member.guild.roles, name='Bot'))
             await member.edit(nick='[' + await self.bot.db_con.fetch('select prefix from bots where id = $1', member.id)
-                              + ']' + member.name)
+                              + '] ' + member.name)
 
     @commands.command()
     async def invite(self, ctx, bot: discord.User=None, prefix=None):
