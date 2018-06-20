@@ -6,6 +6,18 @@ class BotManager:
     def __init__(self, bot):
         self.bot = bot
 
+    async def on_member_join(self, member):
+        # If the member is not a bot
+        if member.bot is False:
+            return
+        else:
+            # The member is a bot
+            # Add role testing bot
+            await member.add_roles(discord.utils.get(member.guild.roles, name='Bot to test'))
+            await self.bot.db_con.fetch('select prefix from bots where id = $1', member.id)
+            await member.nick('[' + await self.bot.db_con.fetch('select prefix from bots where id = $1', member.id)
+                              + ']' + member.name)
+
     @commands.command()
     async def invite(self, ctx, bot: discord.User=None, prefix=None):
         if not bot:
@@ -15,12 +27,12 @@ class BotManager:
         if not prefix:
             raise Warning('Please provide a prefix')
 
-        # Make sure that the bot has not been invited already and is no being tested
+        # Make sure that the bot has not been invited already and it is not being tested
         if await self.bot.db_con.fetch('select count(*) from bots where id = $1', bot.id) == 1:
-            raise Warning('The bot has already been invited')
+            raise Warning('The bot has already been invited or is being tested')
 
-        await self.bot.db_con.execute('insert into bots (id, owner, prefix) values ($1, $2, $3)'
-                                      , bot.id, ctx.author.id, prefix)
+        await self.bot.db_con.execute('insert into bots (id, owner, prefix) values ($1, $2, $3)',
+                                      bot.id, ctx.author.id, prefix)
 
         em = discord.Embed(colour=self.bot.embed_color)
         em.title = "Hello {},".format(ctx.author.name)
@@ -30,6 +42,7 @@ class BotManager:
         await ctx.send(embed=em)
 
         em = discord.Embed(title="Bot invite", colour=discord.Color(0x363941))
+        em.description = "To start to test the bot, use `ds!start <bot_id>` and to finish testing it use `ds!finish`"
         em.set_thumbnail(url=bot.avatar_url)
         em.add_field(name="Bot name", value=bot.name)
         em.add_field(name="Bot id", value="`" + str(bot.id) + "`")
@@ -45,6 +58,12 @@ class BotManager:
             raise Warning('You must include the id of the bot you are going to test... Be exact.')
 
         if await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id):
+            if discord.utils.get(ctx.guild.roles, name='Bot to test') in bot.roles:
+                raise Warning('The bot is already being tested')
+
+            await bot.remove_roles(discord.utils.get(ctx.guild.roles, name='Bot to test'))
+            await bot.add_roles(discord.utils.get(ctx.guild.roles, name='Bot testing'))
+
             user = await self.bot.db_con.fetch('select owner from bots where id = $1', bot.id)
             await ctx.get_user(user).send('Your bot is being tested by ' + str(ctx.author))
             await ctx.send('The owner has been warned')
@@ -65,6 +84,10 @@ class BotManager:
 
         if await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id):
             user = await self.bot.db_con.fetch('select owner from bots where id = $1', bot.id)
+
+            await bot.remove_roles(discord.utils.get(ctx.guild.roles, name='Bot testing'))
+            await bot.add_roles(discord.utils.get(ctx.guild.roles, name='Bot'))
+
             await ctx.get_user(user).send('Your bot has been tested by ' + str(ctx.author) + '\n**Result:** Approved')
             await ctx.send('The owner has been warned')
         else:
@@ -81,6 +104,7 @@ class BotManager:
 
         if await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id):
             user = await self.bot.db_con.fetch('select owner from bots where id = $1', bot.id)
+            await bot.kick()
             await ctx.get_user(user).send('Your bot has been tested by ' + str(ctx.author) +
                                           '\n**Result:** Declined\n**Reason:** ' + reason)
             await ctx.send('The owner has been warned')

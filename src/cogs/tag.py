@@ -45,7 +45,7 @@ class Tag:
 	async def add(self, ctx, tag_name=None, *, tag_info=None):
 		"""Adds a new tag"""
 		await ctx.trigger_typing()
-		if not ctx.author.guild_permissions.manage_guild:
+		if not ctx.author.guild_permissions.manage_roles:
 			return await ctx.send("You are not allowed to do this")
 		
 		if tag_name is None or tag_info is None:
@@ -71,7 +71,7 @@ class Tag:
 	async def remove(self, ctx, tag=None):
 		"""Remove a existing tag"""
 		await ctx.trigger_typing()
-		if not ctx.author.guild_permissions.manage_guild:
+		if not ctx.author.guild_permissions.manage_roles:
 			return await ctx.send("You are not allowed to do this")
 
 		if tag is None:
