@@ -12,10 +12,8 @@ class BotManager:
             return
         else:
             # The member is a bot
-            # Add role testing bot
-            await member.add_roles(discord.utils.get(member.guild.roles, name='Bot to test'))
-            await self.bot.db_con.fetch('select prefix from bots where id = $1', member.id)
-            await member.nick('[' + await self.bot.db_con.fetch('select prefix from bots where id = $1', member.id)
+            await member.add_roles(discord.utils.get(member.guild.roles, name='Bot'))
+            await member.edit(nick='[' + await self.bot.db_con.fetch('select prefix from bots where id = $1', member.id)
                               + ']' + member.name)
 
     @commands.command()
@@ -42,74 +40,12 @@ class BotManager:
         await ctx.send(embed=em)
 
         em = discord.Embed(title="Bot invite", colour=discord.Color(0x363941))
-        em.description = "To start to test the bot, use `ds!start <bot_id>` and to finish testing it use `ds!finish`"
         em.set_thumbnail(url=bot.avatar_url)
         em.add_field(name="Bot name", value=bot.name)
         em.add_field(name="Bot id", value="`" + str(bot.id) + "`")
         em.add_field(name="Bot owner", value=ctx.author.mention)
         em.add_field(name="Bot prefix", value="`" + prefix + "`")
         await ctx.bot.get_channel(448803675574370304).send(embed=em)
-
-    @commands.command()
-    async def start(self, ctx, bot: discord.Member = None):
-        if not ctx.author.guild_permissions.manage_roles:
-            raise Warning('You are not allowed to execute this command')
-        if not bot:
-            raise Warning('You must include the id of the bot you are going to test... Be exact.')
-
-        if await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id):
-            if discord.utils.get(ctx.guild.roles, name='Bot to test') in bot.roles:
-                raise Warning('The bot is already being tested')
-
-            await bot.remove_roles(discord.utils.get(ctx.guild.roles, name='Bot to test'))
-            await bot.add_roles(discord.utils.get(ctx.guild.roles, name='Bot testing'))
-
-            user = await self.bot.db_con.fetch('select owner from bots where id = $1', bot.id)
-            await ctx.get_user(user).send('Your bot is being tested by ' + str(ctx.author))
-            await ctx.send('The owner has been warned')
-        else:
-            raise Warning('The bot id that you provided could not be found on the database')
-
-    @commands.group()
-    async def finish(self, ctx):
-        if ctx.invoked_subcommand is not None:
-            await ctx.send("Do `ds!help finish` for more info")
-
-    @finish.command()
-    async def approve(self, ctx, bot: discord.Member = None):
-        if not ctx.author.guild_permissions.manage_roles:
-            raise Warning('You are not allowed to execute this command')
-        if not bot:
-            raise Warning('You must include the id of the bot you have finished testing... Be exact.')
-
-        if await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id):
-            user = await self.bot.db_con.fetch('select owner from bots where id = $1', bot.id)
-
-            await bot.remove_roles(discord.utils.get(ctx.guild.roles, name='Bot testing'))
-            await bot.add_roles(discord.utils.get(ctx.guild.roles, name='Bot'))
-
-            await ctx.get_user(user).send('Your bot has been tested by ' + str(ctx.author) + '\n**Result:** Approved')
-            await ctx.send('The owner has been warned')
-        else:
-            raise Warning('The bot id that you provided could not be found on the database')
-
-    @finish.command()
-    async def decline(self, ctx, bot: discord.Member = None, reason=None):
-        if not ctx.author.guild_permissions.manage_roles:
-            raise Warning('You are not allowed to execute this command')
-        if not bot:
-            raise Warning('You must include the id of the bot you have finished testing... Be exact.')
-        if not reason:
-            raise Warning('You must include the reason for declining the bot... Be exact.')
-
-        if await self.bot.db_con.fetchrow('select * from bots where id = $1', bot.id):
-            user = await self.bot.db_con.fetch('select owner from bots where id = $1', bot.id)
-            await bot.kick()
-            await ctx.get_user(user).send('Your bot has been tested by ' + str(ctx.author) +
-                                          '\n**Result:** Declined\n**Reason:** ' + reason)
-            await ctx.send('The owner has been warned')
-        else:
-            raise Warning('The bot id that you provided could not be found on the database')
 
     @commands.command(name='claim', aliases=['makemine', 'gimme'])
     @commands.cooldown(1, 5, commands.BucketType.user)
