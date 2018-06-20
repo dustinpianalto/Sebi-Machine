@@ -32,7 +32,6 @@ import sys
 import asyncio
 import discord
 from discord.ext.commands.formatter import Paginator
-import numpy as np
 
 
 class Capturing(list):
