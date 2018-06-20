@@ -21,7 +21,7 @@ class BotManager:
 
     @commands.command()
     async def invite(self, ctx, bot=None, prefix=None):
-        bot = ctx.bot.get_user_info(bot)
+        bot = await ctx.bot.get_user_info(bot)
         if not bot:
             raise Warning('You must include the id of the bot you are trying to invite... Be exact.')
         if not bot.bot:
