@@ -18,6 +18,14 @@ class BotManager:
                               + '] ' + member.name)
             except:
                 pass
+            
+    async def on_member_remove(self, member):
+        # If the member is not a bot
+        if member.bot is False:
+            return
+        else:
+            # The member is a bot
+            await self.bot.db_con.execute('DELETE FROM bots WHERE id = $1', member.id)
 
     @commands.command()
     async def invite(self, ctx, bot=None, prefix=None):
