@@ -52,7 +52,7 @@ class Moderation:
             await ctx.send('Are you sure you are capable of this command?')
         try:
             await member.ban()
-            await ctx.send(f'You kicked **`{member.name}`** from **`{ctx.guild.name}`**')
+            await ctx.send(f'You banned **`{member.name}`** from **`{ctx.guild.name}`**')
 
         except Exception as e:
             await ctx.send('You may not use this command, as you do not have permission to do so:\n\n**`{ctx.guild.name}`**'
