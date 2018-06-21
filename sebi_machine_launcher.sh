@@ -4,6 +4,7 @@
 # Esp: added a trap here, as it otherwise attempts to restart when given
 # the interrupt signal. This is really annoying over SSH when I have
 # a 1-second lag anyway.
+
 trap "echo 'Received interrupt. Exiting.'; exit 0" SIGINT SIGTERM
 
 # Also loads the venv if it is present.
@@ -23,13 +24,14 @@ while true; do
     fi
 
     # Just respawn repeatedly until sigint.
-    python3.6 -m src
+    python3.6 -m sebimachine
     EXIT_STATUS=${?}
     if [ ${EXIT_STATUS} -ne 0 ]; then
         let FAIL_COUNTER=${FAIL_COUNTER}+1
     else
         let FAIL_COUNTER=0
     fi
+
 
     # Added colouring to ensure the date of shutdown and the exit code stands
     # out from the other clutter in the traceback that might have been output.
