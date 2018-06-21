@@ -5,13 +5,15 @@ import json
 import discord
 import os
 
+
 class LoadConfig:
     """
     All config is collected here
     """
+
     def __init__(self):
         # Read our config file
-        with open('src/config/Config.json') as fp:
+        with open("src/config/Config.json") as fp:
             self.config = json.load(fp)
 
         # Initialize config
@@ -23,7 +25,7 @@ class LoadConfig:
         self.maintenance = self.config["maintenance"]
         self.embed_color = discord.Colour(0x00FFFF)
         self.error_color = discord.Colour(0xFF0000)
-        if self.maintenance == 'False':
+        if self.maintenance == "False":
             self.maintenance = False
         else:
             self.maintenance = True

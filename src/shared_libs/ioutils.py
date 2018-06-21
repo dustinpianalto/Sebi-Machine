@@ -8,10 +8,10 @@ import inspect
 import os
 
 
-__all__ = ('in_here',)
+__all__ = ("in_here",)
 
 
-def in_here(first_path_bit: str, *path_bits: str, stack_depth: int=0) -> str:
+def in_here(first_path_bit: str, *path_bits: str, stack_depth: int = 0) -> str:
     """
     A somewhat voodooish and weird piece of code. This enables us to
     directly refer to a file in the same directory as the code that 
@@ -36,16 +36,17 @@ def in_here(first_path_bit: str, *path_bits: str, stack_depth: int=0) -> str:
         we expect this to be called in. Affects the relative directory
         that is used.
     :returns: the absolute path to the given relative path provided.
-    """    
+    """
     try:
         frame = inspect.stack()[1 + stack_depth]
     except IndexError:
-        raise RuntimeError('Could not find a stack record. Interpreter has '
-                           'been shot.')
+        raise RuntimeError(
+            "Could not find a stack record. Interpreter has " "been shot."
+        )
     else:
-        module = inspect.getmodule(frame[0])        
-        assert hasattr(module, '__file__'), 'No `__file__\' attr, welp.'
-        
+        module = inspect.getmodule(frame[0])
+        assert hasattr(module, "__file__"), "No `__file__' attr, welp."
+
         # https://docs.python.org/3/library/inspect.html#the-interpreter-stack
         # If Python caches strings rather than copying when we move them
         # around or modify them, then this may cause a referential cycle which

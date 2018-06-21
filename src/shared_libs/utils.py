@@ -42,11 +42,11 @@ class Capturing(list):
 
     def __exit__(self, *args):
         self.extend(self._stringio.getvalue().splitlines())
-        del self._stringio    # free up some memory
+        del self._stringio  # free up some memory
         sys.stdout = self._stdout
 
 
-def to_list_of_str(items, out: list=list(), level=1, recurse=0):
+def to_list_of_str(items, out: list = list(), level=1, recurse=0):
     def rec_loop(item, key, out, level):
         quote = '"'
         if type(item) == list:
@@ -60,40 +60,42 @@ def to_list_of_str(items, out: list=list(), level=1, recurse=0):
             out = to_list_of_str(item, out, new_level, 1)
             out.append(f'{"    "*level}}}')
         else:
-            out.append(f'{"    "*level}{quote+key+quote+": " if key else ""}{repr(item)},')
+            out.append(
+                f'{"    "*level}{quote+key+quote+": " if key else ""}{repr(item)},'
+            )
 
     if type(items) == list:
         if not recurse:
             out = list()
-            out.append('[')
+            out.append("[")
         for item in items:
             rec_loop(item, None, out, level)
         if not recurse:
-            out.append(']')
+            out.append("]")
     elif type(items) == dict:
         if not recurse:
             out = list()
-            out.append('{')
+            out.append("{")
         for key in items:
             rec_loop(items[key], key, out, level)
         if not recurse:
-            out.append('}')
+            out.append("}")
 
     return out
 
 
 def paginate(text, maxlen=1990):
-    paginator = Paginator(prefix='```py', max_size=maxlen+10)
+    paginator = Paginator(prefix="```py", max_size=maxlen + 10)
     if type(text) == list:
         data = to_list_of_str(text)
     elif type(text) == dict:
         data = to_list_of_str(text)
     else:
-        data = str(text).split('\n')
+        data = str(text).split("\n")
     for line in data:
         if len(line) > maxlen:
             n = maxlen
-            for l in [line[i:i+n] for i in range(0, len(line), n)]:
+            for l in [line[i : i + n] for i in range(0, len(line), n)]:
                 paginator.add_line(l)
         else:
             paginator.add_line(line)
@@ -105,7 +107,8 @@ async def run_command(args):
     process = await asyncio.create_subprocess_shell(
         args,
         # stdout must a pipe to be accessible as process.stdout
-        stdout=asyncio.subprocess.PIPE)
+        stdout=asyncio.subprocess.PIPE,
+    )
     # Wait for the subprocess to finish
     stdout, stderr = await process.communicate()
     # Return stdout
