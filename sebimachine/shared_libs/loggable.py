@@ -14,11 +14,11 @@ boast faster lookups.
 import logging
 
 
-__all__ = ('Loggable',)
+__all__ = ("Loggable",)
 
 
 class Loggable:
-    __slots__ = ('logger',)
-    
+    __slots__ = ("logger",)
+
     def __init_subclass__(cls, **_):
         cls.logger = logging.getLogger(cls.__qualname__)
