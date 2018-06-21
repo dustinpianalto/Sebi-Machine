@@ -1,0 +1,5 @@
+*.py text eol=lf
+*.js text eol=lf
+*.sh text eol=lf
+*.png binary
+*.jpg binary
