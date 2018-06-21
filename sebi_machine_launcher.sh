@@ -24,7 +24,7 @@ while true; do
     fi
 
     # Just respawn repeatedly until sigint.
-    python3.6 -m src
+    python3.6 -m sebimachine
     EXIT_STATUS=${?}
     if [ ${EXIT_STATUS} -ne 0 ]; then
         let FAIL_COUNTER=${FAIL_COUNTER}+1
