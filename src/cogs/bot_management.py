@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
-
-
+            
 class BotManager:
     def __init__(self, bot):
         self.bot = bot
@@ -12,7 +11,7 @@ class BotManager:
             return
         else:
             # The member is a bot
-            bot_owner = await self.bot.get_user_info(await self.bot.db_con.fetchval('select owner from bots where id = $1', member.id))
+            bot_owner = ctx.guild.get_member((await self.bot.db_con.fetchval('select owner from bots where id = $1', member.id))
             await bot_owner.add_roles(discord.utils.get(member.guild.roles, name='Bot Developers'))
             
             await member.add_roles(discord.utils.get(member.guild.roles, name='Bots'))
@@ -60,8 +59,9 @@ class BotManager:
                          "Please open your DMs if they are not already so the bot can contact " \
                          "you to inform you about the progress of the bot!"
         await ctx.send(embed=em)
-
+                                             
         em = discord.Embed(title="Bot invite", colour=discord.Color(0x363941))
+        em.description = discord.utils.oauth_url(client_id, permissions=None, guild=ctx.guild))
         em.set_thumbnail(url=bot.avatar_url)
         em.add_field(name="Bot name", value=bot.name)
         em.add_field(name="Bot id", value="`" + str(bot.id) + "`")
