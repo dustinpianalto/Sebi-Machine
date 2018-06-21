@@ -120,3 +120,6 @@ docker-compose.yml
 node_modules/
 *.xml
 *.iml
+
+# Lock file, I guess.
+package-lock.json

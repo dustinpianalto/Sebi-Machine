@@ -12,3 +12,5 @@ opuslib
 dataclasses
 PyNaCl
 youtube_dl
+# Duh!
+git+https://github.com/rapptz/discord.py@rewrite
