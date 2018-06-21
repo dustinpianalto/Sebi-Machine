@@ -87,7 +87,7 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
                 logging.exception(f'Could not load {cog}', exc_info=(type(ex), ex, ex.__traceback__))
                 self.failed_cogs_on_startup[cog] = ex
                                   
-     async def on_ready(self):
+    async def on_ready(self):
         """On ready function"""
         self.maintenance and self.logger.warning("MAINTENANCE ACTIVE")
         with open(f"src/config/reboot", "r") as f:
