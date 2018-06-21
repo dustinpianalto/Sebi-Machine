@@ -10,12 +10,8 @@ class BotManager:
         if member.bot is False:
             return
         else:
-            # Checks if the bot is in the database
-            if await self.bot.db_con.fetch('select count(*) from bots where id = $1', member.id) != 1:
-                return await member.kick()
-            
-            bot_owner = member.guild.get_member((await self.bot.db_con.fetchval('select owner from bots where id = $1', member.id))
-            await bot_owner.send("Your bot has been approved and invited")
+            # The member is a bot
+            bot_owner = member.guild.get_member(await self.bot.db_con.fetchval('select owner from bots where id = $1', member.id))
             await bot_owner.add_roles(discord.utils.get(member.guild.roles, name='Bot Developers'))
 
             await member.add_roles(discord.utils.get(member.guild.roles, name='Bots'))
@@ -65,7 +61,7 @@ class BotManager:
         await ctx.send(embed=em)
                                              
         em = discord.Embed(title="Bot invite", colour=discord.Color(0x363941))
-        em.description = discord.utils.oauth_url(client_id, permissions=None, guild=ctx.guild))
+        em.description = discord.utils.oauth_url(client_id, permissions=None, guild=ctx.guild)
         em.set_thumbnail(url=bot.avatar_url)
         em.add_field(name="Bot name", value=bot.name)
         em.add_field(name="Bot id", value="`" + str(bot.id) + "`")

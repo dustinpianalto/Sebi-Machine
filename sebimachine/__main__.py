@@ -26,6 +26,8 @@ from .shared_libs.loggable import Loggable
 # Init logging to output on INFO level to stderr.
 logging.basicConfig(level="INFO")
 
+REBOOT_FILE = "sebimachine/config/reboot"
+
 
 # If uvloop is installed, change to that eventloop policy as it
 # is more efficient
@@ -61,6 +63,7 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
         with open(in_here("config", "PrivateConfig.json")) as fp:
             self.bot_secrets = json.load(fp)
         self.db_con = database.DatabaseConnection(**self.bot_secrets["db-con"])
+        self.failed_cogs_on_startup = {}
         self.book_emojis: Dict[str, str] = {
             "unlock": "🔓",
             "start": "⏮",
@@ -74,22 +77,31 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
         # Load plugins
         # Add your cog file name in this list
         with open(in_here("extensions.txt")) as cog_file:
-            cogs = cog_file.readlines()
+            cogs = {f'sebimachine.cogs.{c.strip()}' for c in cog_file.readlines()}
 
         for cog in cogs:
-            # Could this just be replaced with `strip()`?
-            cog = cog.replace("\n", "")
-            self.load_extension(f"src.cogs.{cog}")
-            self.logger.info(f"Loaded: {cog}")
-
+            try:
+                self.load_extension(cog)
+                self.logger.info(f"Loaded: {cog}")
+            except (ModuleNotFoundError, ImportError) as ex:
+                logging.exception(f'Could not load {cog}', exc_info=(type(ex), ex, ex.__traceback__))
+                self.failed_cogs_on_startup[cog] = ex
+                                  
     async def on_ready(self):
         """On ready function"""
         self.maintenance and self.logger.warning("MAINTENANCE ACTIVE")
-        with open(f"src/config/reboot", "r") as f:
-            reboot = f.readlines()
-        if int(reboot[0]) == 1:
-            await self.get_channel(int(reboot[1])).send("Restart Finished.")
-        with open(f"src/config/reboot", "w") as f:
+        if os.path.exists(REBOOT_FILE):
+            with open(REBOOT_FILE, "r") as f:
+                reboot = f.readlines()
+            if int(reboot[0]) == 1:
+                await self.get_channel(int(reboot[1])).send("Restart Finished.")
+                for cog, ex in self.failed_cogs_on_startup.items():
+                    tb = ''.join(traceback.format_exception(type(ex), ex, ex.__traceback__))[-1500:]
+                    await ctx.send(
+                        f'FAILED TO LOAD {cog} BECAUSE OF {type(ex).__name__}: {ex}\n'
+                        f'{tb}'
+                    )
+        with open(REBOOT_FILE, "w") as f:
             f.write(f"0")
 
     async def on_command_error(self, ctx, error):

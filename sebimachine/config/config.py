@@ -13,7 +13,7 @@ class LoadConfig:
 
     def __init__(self):
         # Read our config file
-        with open("src/config/Config.json") as fp:
+        with open("sebimachine/config/Config.json") as fp:
             self.config = json.load(fp)
 
         # Initialize config
