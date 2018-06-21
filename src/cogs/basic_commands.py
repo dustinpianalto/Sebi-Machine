@@ -16,7 +16,8 @@ class BasicCommands:
         channel_list = {'channel-1'             : self.bot.get_channel(333149949883842561).mention, 
                         'd.py-rewrite-start'    : self.bot.get_channel(386419285439938560).mention, 
                         'js-klasa-start'        : self.bot.get_channel(341816240186064897).mention, 
-                        'async2rewrite-start'   : self.bot.get_channel(392223495389577217).mention}
+                        'async2rewrite-start'   : self.bot.get_channel(392223495389577217).mention,
+                        'd.js-start'            : self.bot.get_channel(436771798303113217).mention}
 
         bots_channels = (self.bot.get_channel(339112602867204097).mention, 
                          self.bot.get_channel(411586546551095296).mention)
@@ -46,7 +47,7 @@ class BasicCommands:
                     await asyncio.sleep(0.5)
                     await ctx.author.send(f"After you have a bot account, you can either continue with {channel_list['d.py-rewrite-start']}" 
                                           f"if you want to make a bot in discord.py rewrite __or__ go to {channel_list['js-klasa-start']} or "
-                                          f"{channel_list['d.js']} for making a bot in JavaScript."
+                                          f"{channel_list['d.js-start']} for making a bot in JavaScript."
                                           f"If you already have old Discord.py async code and you want to use it with the new Rewrite versions, head to {channel_list['async2rewrite-start']}")
                                     
                     await ctx.author.send("...Read all the tutorials and still need help? You have two ways to get help.")
