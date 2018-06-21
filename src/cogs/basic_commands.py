@@ -45,7 +45,7 @@ class BasicCommands:
                                           " (Regardless of the language you're gonna use).")
                                     
                     await asyncio.sleep(0.5)
-                    await ctx.author.send(f"After you have a bot account, you can either continue with {channel_list['d.py-rewrite-start']}" 
+                    await ctx.author.send(f"After you have a bot account, you can either continue with {channel_list['d.py-rewrite-start']} " 
                                           f"if you want to make a bot in discord.py rewrite __or__ go to {channel_list['js-klasa-start']} or "
                                           f"{channel_list['d.js']} for making a bot in JavaScript."
                                           f"If you already have old Discord.py async code and you want to use it with the new Rewrite versions, head to {channel_list['async2rewrite-start']}")
@@ -54,7 +54,7 @@ class BasicCommands:
                     await asyncio.sleep(1.5)
                     await ctx.author.send("**Method-1**\nThis is the best method of getting help. You help yourself.\n"
                                           f"To do so, head over to a bots dedicated channel (either {bots_channels[0]} or {bots_channels[1]})" 
-                                          " and type `?rtfm rewrite thing_you_want_help_with`.\nThis will trigger the bot R.Danny Bot and will"
+                                          " and type `?rtfm rewrite thing_you_want_help_with`.\nThis will trigger the bot R.Danny Bot and will "
                                           "give you links on your query on the official discord.py rewrite docs. *PS: Let the page completely load*")
                                    
                     await asyncio.sleep(5)
