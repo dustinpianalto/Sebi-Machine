@@ -61,7 +61,7 @@ class BotManager:
         await ctx.send(embed=em)
                                              
         em = discord.Embed(title="Bot invite", colour=discord.Color(0x363941))
-        em.description = discord.utils.oauth_url(client_id, permissions=None, guild=ctx.guild))
+        em.description = discord.utils.oauth_url(client_id, permissions=None, guild=ctx.guild)
         em.set_thumbnail(url=bot.avatar_url)
         em.add_field(name="Bot name", value=bot.name)
         em.add_field(name="Bot id", value="`" + str(bot.id) + "`")
