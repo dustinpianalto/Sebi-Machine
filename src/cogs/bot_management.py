@@ -29,6 +29,13 @@ class BotManager:
         else:
             # The member is a bot
             await self.bot.db_con.execute('DELETE FROM bots WHERE id = $1', member.id)
+            
+    async def on_member_ban(self, guild, user):
+        if member.bot is True:
+            return
+        else:
+            # I need to finish this
+            pass
 
     @commands.command()
     async def invite(self, ctx, bot=None, prefix=None):
@@ -60,7 +67,7 @@ class BotManager:
         em.add_field(name="Bot id", value="`" + str(bot.id) + "`")
         em.add_field(name="Bot owner", value=ctx.author.mention)
         em.add_field(name="Bot prefix", value="`" + prefix + "`")
-        await ctx.bot.get_channel(448803675574370304).send(embed=em)
+        await ctx.bot.get_channel(459280759945953300).send(embed=em)
 
     @commands.command(name='claim', aliases=['makemine', 'gimme'])
     @commands.cooldown(1, 5, commands.BucketType.user)
