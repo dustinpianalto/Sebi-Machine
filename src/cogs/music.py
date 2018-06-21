@@ -11,7 +11,7 @@ from discord.ext import commands
 import youtube_dl
 
 # noinspection PyUnresolvedReferences,PyUnresolvedReferences,PyPackageRequirements
-from utils import noblock
+from . utils import noblock
 
 
 YT_DL_OPTS = {
