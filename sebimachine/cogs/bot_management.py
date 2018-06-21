@@ -11,7 +11,7 @@ class BotManager:
             return
         else:
             # The member is a bot
-            bot_owner = member.guild.get_member((await self.bot.db_con.fetchval('select owner from bots where id = $1', member.id))
+            bot_owner = member.guild.get_member(await self.bot.db_con.fetchval('select owner from bots where id = $1', member.id))
             await bot_owner.add_roles(discord.utils.get(member.guild.roles, name='Bot Developers'))
             
             await member.add_roles(discord.utils.get(member.guild.roles, name='Bots'))
