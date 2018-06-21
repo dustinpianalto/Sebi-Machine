@@ -26,6 +26,8 @@ from .shared_libs.loggable import Loggable
 # Init logging to output on INFO level to stderr.
 logging.basicConfig(level="INFO")
 
+REBOOT_FILE = "sebimachine/config/reboot"
+
 
 # If uvloop is installed, change to that eventloop policy as it
 # is more efficient
@@ -88,17 +90,18 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
     async def on_ready(self):
         """On ready function"""
         self.maintenance and self.logger.warning("MAINTENANCE ACTIVE")
-        with open(f"src/config/reboot", "r") as f:
-            reboot = f.readlines()
-        if int(reboot[0]) == 1:
-            await self.get_channel(int(reboot[1])).send("Restart Finished.")
-            for cog, ex in self.failed_cogs_on_startup.items():
-                tb = ''.join(traceback.format_exception(type(ex), ex, ex.__traceback__))[-1500:]
-                await ctx.send(
-                    f'FAILED TO LOAD {cog} BECAUSE OF {type(ex).__name__}: {ex}\n'
-                    f'{tb}'
-                )
-        with open(f"src/config/reboot", "w") as f:
+        if os.path.exists(REBOOT_FILE):
+            with open(REBOOT_FILE, "r") as f:
+                reboot = f.readlines()
+            if int(reboot[0]) == 1:
+                await self.get_channel(int(reboot[1])).send("Restart Finished.")
+                for cog, ex in self.failed_cogs_on_startup.items():
+                    tb = ''.join(traceback.format_exception(type(ex), ex, ex.__traceback__))[-1500:]
+                    await ctx.send(
+                        f'FAILED TO LOAD {cog} BECAUSE OF {type(ex).__name__}: {ex}\n'
+                        f'{tb}'
+                    )
+        with open(REBOOT_FILE, "w") as f:
             f.write(f"0")
 
     async def on_command_error(self, ctx, error):
