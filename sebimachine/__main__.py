@@ -75,13 +75,11 @@ class SebiMachine(commands.Bot, LoadConfig, Loggable):
         # Load plugins
         # Add your cog file name in this list
         with open(in_here("extensions.txt")) as cog_file:
-            cogs = cog_file.readlines()
+            cogs = {f'sebimachine.cogs.{c.strip()}' for c in cog_file.readlines()}
 
         for cog in cogs:
-            # Could this just be replaced with `strip()`?
             try:
-                cog = cog.replace("\n", "")
-                self.load_extension(f"src.cogs.{cog}")
+                self.load_extension(cog)
                 self.logger.info(f"Loaded: {cog}")
             except (ModuleNotFoundError, ImportError) as ex:
                 logging.exception(f'Could not load {cog}', exc_info=(type(ex), ex, ex.__traceback__))
