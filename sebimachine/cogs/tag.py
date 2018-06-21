@@ -8,7 +8,7 @@ import asyncio
 class Tag:
     def __init__(self, bot):
         self.bot = bot
-        with open("src/shared_libs/tags.json", "r") as fp:
+        with open("sebimachine/shared_libs/tags.json", "r") as fp:
             json_data = fp.read()
             global tags
             tags = json.loads(json_data)
