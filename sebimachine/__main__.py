@@ -8,19 +8,19 @@ Something meaningful here, eventually.
 import asyncio
 import json
 import logging
-import random
-import traceback
 import os
+import random
 import sys
+import traceback
+from typing import Dict
 
 import discord
 from discord.ext import commands
 
-from src.config.config import LoadConfig
-from src.shared_libs.loggable import Loggable
-from src.shared_libs.ioutils import in_here
-from src.shared_libs import database
-from typing import Dict
+from .config.config import LoadConfig
+from .shared_libs import database
+from .shared_libs.ioutils import in_here
+from .shared_libs.loggable import Loggable
 
 
 # Init logging to output on INFO level to stderr.

@@ -4,7 +4,7 @@
 Sebi-Machine.
 """
 
-__author__ = "Annihilator708"
+__author__ = "Dusty.P"
 __contributors__ = (__author__, "Neko404NotFound", "Dusty.P", "davfsa", "YashKandalkar")
 
 __license__ = "MIT"

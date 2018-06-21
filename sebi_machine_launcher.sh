@@ -9,7 +9,7 @@ trap "echo 'Received interrupt. Exiting.'; exit 0" SIGINT
 # Also loads the venv if it is present.
 [ -d .venv/bin ] && source .venv/bin/activate && echo "Entered venv." || echo "No venv detected."
 
-until python -m src; do 
+until python -m sebimachine; do
     # Added colouring to ensure the date of shutdown and the exit code stands
     # out from the other clutter in the traceback that might have been output.
     echo -e "\e[0;31m[$(date --utc)]\e[0m Sebi-Machine shutdown with error \e[0;31m$?\e[0m. Restarting..." >&2

@@ -31,8 +31,9 @@ Utility for creating Paginated responses
 
 
 import asyncio
-import discord
 import typing
+
+import discord
 
 
 class Paginator:

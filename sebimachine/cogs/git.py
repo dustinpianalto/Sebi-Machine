@@ -29,8 +29,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import discord
 from discord.ext import commands
-from src.shared_libs.utils import paginate, run_command
-from src.shared_libs.loggable import Loggable
+from sebimachine.shared_libs.utils import paginate, run_command
+from sebimachine.shared_libs.loggable import Loggable
+
+from sebimachine import __url__
 import asyncio
 
 
@@ -41,7 +43,8 @@ class Git(Loggable):
     @commands.group(case_insensitive=True, invoke_without_command=True)
     async def git(self, ctx):
         """Run help git for more info"""
-        await ctx.send("https://github.com/dustinpianalto/Sebi-Machine/")
+        # await ctx.send("https://github.com/dustinpianalto/Sebi-Machine/")
+        await ctx.send(__url__ or "No URL specified in __init__.py")
 
     @commands.command(case_insensitive=True, brief="Gets the Trello link.")
     async def trello(self, ctx):

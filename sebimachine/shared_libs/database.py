@@ -1,5 +1,6 @@
-import asyncpg
 import asyncio
+
+import asyncpg
 
 
 class DatabaseConnection:

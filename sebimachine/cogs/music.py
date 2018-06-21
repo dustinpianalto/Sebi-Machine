@@ -15,7 +15,7 @@ from .utils import noblock
 
 
 YT_DL_OPTS = {
-    "format": "mp3[abr>0]/bestaudio/best",
+    "format": "ogg[abr>0]/bestaudio/best",
     "ignoreerrors": True,
     "default_search": "auto",
     "source_address": "0.0.0.0",

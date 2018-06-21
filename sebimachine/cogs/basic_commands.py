@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import asyncio
 
 from discord.ext import commands
 import discord
-import asyncio
 
 
 class BasicCommands:
